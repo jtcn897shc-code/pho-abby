@@ -1,0 +1,133 @@
+---
+import { contact, socials, site } from "../data/site";
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="shell footer__inner">
+    <div class="footer__brand">
+      <span class="footer__word">{contact.name}</span>
+      <p>{site.description}</p>
+    </div>
+
+    <div class="footer__col">
+      <h2>Find us</h2>
+      <p>
+        {contact.street}<br />
+        {contact.city}, {contact.region} {contact.postal}
+      </p>
+      <a href={`tel:${contact.phoneTel}`}>{contact.phoneDisplay}</a>
+    </div>
+
+    {
+      socials.length > 0 && (
+        <div class="footer__col">
+          <h2>Follow</h2>
+          <ul>
+            {socials.map((s) => (
+              <li>
+                <a href={s.href} target="_blank" rel="noopener">
+                  {s.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )
+    }
+  </div>
+
+  <div class="shell footer__base">
+    <span>© {year} {contact.name}</span>
+    <a class="footer__credit" href={site.credit.href} target="_blank" rel="noopener">
+      {site.credit.label}
+    </a>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--primary-deep);
+    color: var(--on-frame);
+    padding-top: var(--section-y);
+  }
+
+  .footer__inner {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    padding-bottom: var(--s-12);
+  }
+
+  .footer__word {
+    font-size: 1.5rem;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  .footer__brand p {
+    margin-top: var(--s-3);
+    max-width: 42ch;
+    color: var(--on-frame-muted);
+    font-size: 0.9rem;
+  }
+
+  .footer__col h2 {
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--on-frame-muted);
+    margin-bottom: var(--s-4);
+  }
+
+  .footer__col p,
+  .footer__col a {
+    color: var(--on-frame);
+    font-size: 0.92rem;
+    text-decoration: none;
+    line-height: 1.7;
+  }
+
+  .footer__col ul {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    gap: 0.35rem;
+  }
+
+  .footer__col a:hover {
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 3px;
+  }
+
+  .footer__base {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-block: var(--s-6);
+    border-top: 1px solid var(--hairline-frame);
+    font-size: 0.8rem;
+    color: var(--on-frame-muted);
+  }
+
+  .footer__credit {
+    color: var(--on-frame-muted);
+    text-decoration: none;
+  }
+
+  .footer__credit:hover {
+    color: var(--on-frame);
+  }
+
+  @media (max-width: 720px) {
+    .footer__inner {
+      grid-template-columns: 1fr 1fr;
+    }
+    .footer__brand {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

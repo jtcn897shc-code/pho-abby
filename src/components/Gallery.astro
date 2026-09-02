@@ -1,0 +1,57 @@
+---
+import { images } from "../data/images";
+import Figure from "./Figure.astro";
+
+const shots = [
+  { fig: images.herbs, span: 5 },
+  { fig: images.grilledPork, span: 4 },
+  { fig: images.saladRolls, span: 3 },
+];
+---
+
+<section class="gallery" aria-label="A few plates">
+  <div class="gallery__track">
+    {
+      shots.map((s) => (
+        <figure class="gallery__item" style={`--span:${s.span}`}>
+          <Figure {...s.fig} ratio="4 / 3" />
+        </figure>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .gallery {
+    background: var(--bg);
+    padding-block: clamp(0.5rem, 2vw, 1rem);
+  }
+
+  .gallery__track {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 4px;
+  }
+
+  .gallery__item {
+    margin: 0;
+    grid-column: span var(--span);
+    overflow: hidden;
+  }
+
+  @media (max-width: 620px) {
+    .gallery__track {
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      gap: 8px;
+      padding-inline: var(--gutter);
+    }
+    .gallery__item {
+      flex: 0 0 82%;
+      scroll-snap-align: center;
+      border-radius: var(--radius);
+    }
+  }
+</style>

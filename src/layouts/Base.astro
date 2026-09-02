@@ -1,0 +1,71 @@
+---
+import "../styles/global.css";
+import { contact, hours, site } from "../data/site";
+
+interface Props {
+  title?: string;
+}
+const { title } = Astro.props;
+const pageTitle = title ?? `${contact.name} — ${site.tagline}`;
+const canonical = new URL(Astro.url.pathname, site.url).href;
+
+const dayMap: Record<string, string> = {
+  Monday: "Mo", Tuesday: "Tu", Wednesday: "We", Thursday: "Th",
+  Friday: "Fr", Saturday: "Sa", Sunday: "Su",
+};
+const openingHours = hours.map((h) => `${dayMap[h.day]} ${h.open}-${h.close}`);
+
+// Restaurant schema. NOTE: no aggregateRating — the 4.6/435 is Google/DoorDash
+// (third-party); showing it in JSON-LD off a first party you don't own can draw
+// a Google penalty. It appears visually in the page only.
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "Restaurant",
+  name: contact.name,
+  servesCuisine: "Vietnamese",
+  priceRange: "$$",
+  telephone: contact.phoneTel,
+  url: site.url,
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: contact.street,
+    addressLocality: contact.city,
+    addressRegion: contact.region,
+    postalCode: contact.postal,
+    addressCountry: "CA",
+  },
+  openingHours,
+  acceptsReservations: "False",
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- PREVIEW ONLY — remove at launch (Phase 11). This is a pitch copy of the
+         restaurant's site and must not be crawled. -->
+    <meta name="robots" content="noindex, nofollow" />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={site.description} />
+    <link rel="canonical" href={canonical} />
+
+    <meta property="og:type" content="restaurant" />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={site.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content="en_CA" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="theme-color" content="#7a3e1d" />
+
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body>
+    <a class="skip" href="#menu">Skip to the menu</a>
+    <slot />
+  </body>
+</html>

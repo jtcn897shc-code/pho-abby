@@ -1,0 +1,64 @@
+---
+import { about } from "../data/site";
+import { images } from "../data/images";
+import Figure from "./Figure.astro";
+---
+
+<section class="section about" id="about">
+  <div class="shell about__inner">
+    <div class="about__text">
+      <div class="section-head">
+        <h2>The place</h2>
+      </div>
+      {about.map((para) => <p class="about__para">{para}</p>)}
+    </div>
+
+    <figure class="about__figure">
+      <Figure {...images.interior} ratio="7 / 5" />
+    </figure>
+  </div>
+</section>
+
+<style>
+  .about {
+    background: var(--surface);
+  }
+
+  .about__inner {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: clamp(2rem, 6vw, 4.5rem);
+    align-items: center;
+  }
+
+  .about__para {
+    max-width: 54ch;
+    color: var(--ink);
+  }
+
+  .about__para + .about__para {
+    margin-top: var(--s-4);
+  }
+
+  .about__figure {
+    margin: 0;
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    transform: translateY(clamp(0px, 2vw, 1.5rem));
+  }
+
+  .about__figure :global(.figure) {
+    width: 100%;
+  }
+
+  @media (max-width: 860px) {
+    .about__inner {
+      grid-template-columns: 1fr;
+    }
+    .about__figure {
+      transform: none;
+      order: -1;
+    }
+  }
+</style>

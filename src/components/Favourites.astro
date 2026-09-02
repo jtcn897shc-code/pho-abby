@@ -1,0 +1,175 @@
+---
+import { favourites, reviews, contact } from "../data/site";
+import { images } from "../data/images";
+import Figure from "./Figure.astro";
+
+const imgFor = {
+  "pho-bowl": images.phoBowl,
+  "grilled-pork": images.grilledPork,
+  "starter-chicken": images.starterChicken,
+} as const;
+---
+
+<section class="section frame favourites" id="favourites">
+  <div class="shell">
+    <div class="section-head">
+      <h2>What people order</h2>
+      <p class="favourites__lede">
+        Rated {contact.ratingValue} on {contact.ratingSource} across
+        {contact.ratingCount} reviews.
+      </p>
+    </div>
+
+    <div class="favourites__grid">
+      <article class="fav fav--feature">
+        <div class="fav__media">
+          <Figure {...imgFor[favourites.feature.img]} ratio="4 / 3" />
+        </div>
+        <div class="fav__text">
+          <h3>{favourites.feature.title}</h3>
+          <p>{favourites.feature.body}</p>
+        </div>
+      </article>
+
+      {
+        favourites.small.map((f) => (
+          <article class="fav">
+            <div class="fav__media">
+              <Figure {...imgFor[f.img]} ratio="16 / 11" />
+            </div>
+            <div class="fav__text">
+              <h3>{f.title}</h3>
+              <p>{f.body}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <ul class="quotes">
+      {
+        reviews.map((r) => (
+          <li class="quote">
+            <p>“{r.quote}”</p>
+            <cite>
+              {r.name}
+              <span>{r.source}</span>
+            </cite>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .favourites__lede {
+    color: var(--on-frame-muted);
+  }
+
+  .favourites__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .fav {
+    display: flex;
+    flex-direction: column;
+    background: oklch(1 0 0 / 0.04);
+    border: 1px solid var(--hairline-frame);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .fav--feature {
+    grid-row: span 2;
+  }
+
+  .fav__media {
+    aspect-ratio: 16 / 11;
+    overflow: hidden;
+  }
+
+  .fav--feature .fav__media {
+    aspect-ratio: 4 / 3;
+  }
+
+  .fav__media > :global(*) {
+    width: 100%;
+    height: 100%;
+    transition: transform var(--dur-mid) var(--ease-out);
+  }
+
+  .fav:hover .fav__media > :global(*) {
+    transform: scale(1.03);
+  }
+
+  .fav__text {
+    padding: clamp(1.1rem, 2.5vw, 1.6rem);
+  }
+
+  .fav__text h3 {
+    color: var(--on-frame);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+  }
+
+  .fav--feature .fav__text h3 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+  }
+
+  .fav__text p {
+    margin-top: var(--s-3);
+    color: var(--on-frame-muted);
+    font-size: 0.95rem;
+  }
+
+  .quotes {
+    list-style: none;
+    padding: 0;
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .quote p {
+    color: var(--on-frame);
+    font-size: 1.05rem;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+
+  .quote cite {
+    display: block;
+    margin-top: var(--s-4);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--on-frame);
+  }
+
+  .quote cite span {
+    display: block;
+    font-weight: 500;
+    font-size: 0.78rem;
+    color: var(--on-frame-muted);
+    margin-top: 0.1rem;
+  }
+
+  @media (max-width: 720px) {
+    .favourites__grid {
+      grid-template-columns: 1fr;
+    }
+    .fav--feature {
+      grid-row: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .fav:hover .fav__media > :global(*) {
+      transform: none;
+    }
+  }
+</style>

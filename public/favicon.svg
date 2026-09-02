@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <rect width="32" height="32" rx="7" fill="oklch(0.475 0.115 52)"/>
+  <!-- steam -->
+  <path d="M12 7.5c1.6 1.2 1.6 2.6 0 3.8M16 6c1.8 1.4 1.8 3 0 4.4M20 7.5c1.6 1.2 1.6 2.6 0 3.8"
+        fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" opacity="0.85"/>
+  <!-- bowl -->
+  <path d="M5 14h22a11 11 0 0 1-22 0Z" fill="#fff"/>
+  <rect x="3" y="21.5" width="26" height="2.4" rx="1.2" fill="#fff"/>
+</svg>

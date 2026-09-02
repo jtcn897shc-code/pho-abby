@@ -1,0 +1,212 @@
+---
+import { contact } from "../data/site";
+import { images } from "../data/images";
+
+const hero = images.hero;
+---
+
+<section class="hero" id="top">
+  {
+    hero.src ? (
+      <img
+        class="hero__img"
+        src={hero.src}
+        alt={hero.alt}
+        width="1600"
+        height="1400"
+        loading="eager"
+        fetchpriority="high"
+        decoding="async"
+      />
+    ) : (
+      <div class="hero__img hero__img--ph" aria-hidden="true" />
+    )
+  }
+  <div class="hero__scrim"></div>
+
+  <!-- motion signature: rising steam. Visible by default; killed by
+       prefers-reduced-motion (replaced with a single static glow). -->
+  <div class="hero__steam" aria-hidden="true">
+    <span style="--x: 22%; --d: 11s; --delay: -2s"></span>
+    <span style="--x: 50%; --d: 13.5s; --delay: -7s"></span>
+    <span style="--x: 74%; --d: 12s; --delay: -4.5s"></span>
+  </div>
+
+  <div class="shell hero__inner">
+    <p class="hero__place">{contact.neighbourhood.split(",")[0]} · {contact.city}</p>
+    <h1 class="hero__headline">A bowl too big<br />to finish.</h1>
+    <p class="hero__sub">
+      Family-run Vietnamese kitchen a minute off Highway&nbsp;1. Slow broth,
+      quick service, portions you can't finish.
+    </p>
+    <div class="hero__cta">
+      <a class="btn" href="#menu">See the menu</a>
+      <a class="btn--ghost-on-frame" href={`tel:${contact.phoneTel}`}>Call {contact.phoneDisplay}</a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    isolation: isolate;
+    min-height: min(88svh, 780px);
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    background: var(--frame);
+  }
+
+  .hero__img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    /* slow, subtle settle — no ken-burns loop, no scroll gate */
+    animation: hero-settle 1.6s var(--ease-out) both;
+  }
+
+  /* placeholder hero — deep amber field, reads as intentional under the steam */
+  .hero__img--ph {
+    background:
+      radial-gradient(90% 70% at 25% 15%, oklch(0.6 0.14 62 / 0.5), transparent 60%),
+      radial-gradient(100% 90% at 85% 100%, oklch(0.3 0.08 38 / 0.8), transparent 55%),
+      linear-gradient(160deg, oklch(0.44 0.11 50), oklch(0.26 0.06 44));
+  }
+
+  @keyframes hero-settle {
+    from {
+      transform: scale(1.06);
+      opacity: 0;
+    }
+    to {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background:
+      linear-gradient(
+        to top,
+        oklch(0.2 0.03 55 / 0.92) 0%,
+        oklch(0.2 0.03 55 / 0.55) 34%,
+        oklch(0.2 0.03 55 / 0.12) 62%,
+        oklch(0.2 0.03 55 / 0.35) 100%
+      );
+  }
+
+  .hero__inner {
+    padding-block: clamp(2.5rem, 8vw, 5.5rem);
+  }
+
+  .hero__place {
+    font-size: var(--fs-micro);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: var(--s-4);
+  }
+
+  .hero__headline {
+    font-size: var(--fs-display);
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: var(--on-frame);
+    max-width: 14ch;
+  }
+
+  .hero__sub {
+    margin-top: var(--s-6);
+    max-width: 44ch;
+    font-size: var(--fs-lead);
+    color: var(--on-frame);
+    opacity: 0.9;
+  }
+
+  .hero__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-8);
+  }
+
+  /* ---- steam ---- */
+  .hero__steam {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    filter: blur(14px);
+    mix-blend-mode: screen;
+    opacity: 0.5;
+  }
+
+  .hero__steam span {
+    position: absolute;
+    bottom: 8%;
+    left: var(--x);
+    width: clamp(90px, 14vw, 160px);
+    height: clamp(90px, 14vw, 160px);
+    border-radius: 50%;
+    background: radial-gradient(circle, oklch(0.95 0.02 70 / 0.9), transparent 70%);
+    animation: steam-rise var(--d) ease-in-out var(--delay) infinite;
+  }
+
+  @keyframes steam-rise {
+    0% {
+      transform: translateY(0) scale(0.7);
+      opacity: 0;
+    }
+    18% {
+      opacity: 0.75;
+    }
+    70% {
+      opacity: 0.35;
+    }
+    100% {
+      transform: translateY(-64vh) scale(1.5);
+      opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero__img {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+    .hero__steam {
+      animation: none;
+      opacity: 0.4;
+      filter: blur(30px);
+    }
+    .hero__steam span {
+      animation: none;
+      bottom: auto;
+      top: 12%;
+      transform: scale(1.3);
+      opacity: 0.5;
+    }
+  }
+</style>
+
+<script>
+  // Pause steam when the tab is hidden (motion loops don't advance off-screen
+  // and can jank on return).
+  const steam = document.querySelector<HTMLElement>(".hero__steam");
+  if (steam) {
+    document.addEventListener("visibilitychange", () => {
+      steam.style.animationPlayState = document.hidden ? "paused" : "running";
+      steam.querySelectorAll<HTMLElement>("span").forEach((s) => {
+        s.style.animationPlayState = document.hidden ? "paused" : "running";
+      });
+    });
+  }
+</script>
