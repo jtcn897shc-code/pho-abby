@@ -177,8 +177,8 @@ export const socials = [
 ];
 
 export const site = {
-  // PITCH: set to the real preview URL before deploy; keep noindex until signed.
-  url: "https://pho-abby-preview.surge.sh",
+  // PITCH: GitHub Pages project URL. Set to the real domain at launch.
+  url: "https://jtcn897shc-code.github.io/pho-abby",
   tagline: "Vietnamese kitchen in Abbotsford",
   description:
     "Family-run Vietnamese restaurant on Whatcom Road, Abbotsford BC. Rice-noodle phở with a slow-simmered broth, grilled lemongrass plates, salad rolls and bubble tea. Open since 2024.",
