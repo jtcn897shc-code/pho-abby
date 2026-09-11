@@ -1,25 +1,35 @@
 /**
  * Every image on the site, in one place.
  *
- * TEMPLATE BUILD: no photos wired yet. Each entry renders as an on-brand styled
- * placeholder (see components/Figure.astro). To drop in a real photo, set `src`
- * to the URL/import and rewrite `alt` to describe that photo. Nothing else
- * changes.
+ * Entries with no `src` render as an on-brand styled placeholder (see
+ * components/Figure.astro). To drop in a real photo, set `src` and rewrite
+ * `alt` to describe that photo. Nothing else changes.
  *
- * Savanna already has 19+ real job photos on their Facebook page — those should
- * go in first, at full resolution. Real work beats generated imagery here: a
- * homeowner in Burnaby recognising their own street is the whole point.
+ * WHAT IS REAL RIGHT NOW: three crops of ONE genuine Savanna job photo — the
+ * ridge shot supplied by the client. No stock, no generated imagery: every
+ * external image source is blocked from the build environment, and for a
+ * roofing company a real job beats a stock roof anyway. A homeowner in Burnaby
+ * recognising their own street is the whole point.
  *
- * TODO: get original-resolution files. The screenshots sent so far are 1260x2736
- * with app chrome top and bottom; the usable photo area is roughly 1260x1745,
- * which is too short for a full-bleed hero.
+ * TODO: get the remaining 19+ job photos at ORIGINAL resolution. The one in use
+ * came from a 1260x2736 phone screenshot; usable area after cropping the app
+ * chrome is 1260x1680, so the hero is being upscaled ~14% on desktop. It holds
+ * up, but a real file would be sharper.
+ *
+ * ⚠ STRIP EXIF BEFORE PUBLISHING any original camera files. Phone photos of a
+ * job carry GPS — publishing a past customer's home coordinates is not
+ * acceptable. (Screenshots don't carry it; originals will.)
  */
 export type Figure = { src?: string; alt: string; label: string; kind: "roof" | "crew" | "damage" };
 
+/** Resolve a file in public/img against the configured base path. */
+const asset = (file: string) =>
+  `${import.meta.env.BASE_URL}/img/${file}`.replace(/\/{2,}/g, "/");
+
 export const images: Record<string, Figure> = {
   hero: {
-    src: undefined, // TODO: the drone/ridge shot — looking down a finished roof, neighbourhood behind
-    alt: "Aerial view along the ridge of a newly installed charcoal asphalt shingle roof, with a Metro Vancouver neighbourhood and evergreens beyond.",
+    src: asset("hero-ridge.webp"), // real Savanna job photo
+    alt: "View along the ridge of a newly installed charcoal asphalt shingle roof, looking out over a Metro Vancouver neighbourhood with evergreen hillside beyond.",
     label: "Finished re-roof",
     kind: "roof",
   },
@@ -41,12 +51,6 @@ export const images: Record<string, Figure> = {
     label: "Flat roof system",
     kind: "roof",
   },
-  shingle: {
-    src: undefined, // TODO: shingle detail — ridge cap, or mid-install course lines
-    alt: "Architectural asphalt shingles laid in even courses with a clean ridge cap.",
-    label: "Asphalt shingle",
-    kind: "roof",
-  },
   crew: {
     src: undefined, // TODO: the crew on a roof, harnessed — doubles as the trust/safety photo
     alt: "The Savanna Roofing crew working on a pitched roof in safety harnesses.",
@@ -54,15 +58,15 @@ export const images: Record<string, Figure> = {
     kind: "crew",
   },
   workA: {
-    src: undefined, // TODO: gallery — completed residential re-roof
-    alt: "A completed residential roof replacement.",
+    src: asset("roof-context.webp"), // real Savanna job photo (same roof, neighbourhood band)
+    alt: "A completed residential roof replacement seen against the surrounding street and evergreen hillside.",
     label: "Residential re-roof",
     kind: "roof",
   },
   workB: {
-    src: undefined, // TODO: gallery — flat roof repair, before/after if possible
-    alt: "A repaired flat roof section with new membrane around a drain.",
-    label: "Flat roof repair",
+    src: asset("shingle-detail.webp"), // real Savanna job photo (same roof, foreground crop)
+    alt: "Close view of architectural asphalt shingles laid in even courses, with ridge and valley flashing.",
+    label: "Shingle and flashing detail",
     kind: "roof",
   },
   workC: {
