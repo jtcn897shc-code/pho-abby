@@ -28,16 +28,8 @@ const { src, alt, label, kind, ratio = "4 / 3", eager = false, class: cls } = As
       aria-label={`${alt} (photo to be added)`}
     >
       <svg class="figure__mark" viewBox="0 0 32 32" aria-hidden="true">
-        <path d="M5 14h22a11 11 0 0 1-22 0Z" fill="currentColor" />
-        <rect x="3" y="21.5" width="26" height="2.4" rx="1.2" fill="currentColor" />
-        <path
-          d="M12 7.5c1.6 1.2 1.6 2.6 0 3.8M16 6c1.8 1.4 1.8 3 0 4.4M20 7.5c1.6 1.2 1.6 2.6 0 3.8"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.6"
-          stroke-linecap="round"
-          opacity="0.7"
-        />
+        <path d="M16 5.5 2.5 16.5h4V26h19v-9.5h4L16 5.5Z" fill="currentColor" />
+        <rect x="20.5" y="8" width="3" height="4.2" rx="0.6" fill="currentColor" />
       </svg>
       <span class="figure__label">{label}</span>
       <span class="figure__hint">photo to come</span>
@@ -53,6 +45,8 @@ const { src, alt, label, kind, ratio = "4 / 3", eager = false, class: cls } = As
     object-fit: cover;
   }
 
+  /* Placeholder fills read as "roof": charcoal slate with a low savanna sun
+     behind it. Three variants so a page of placeholders isn't one flat wall. */
   .figure--ph {
     display: flex;
     flex-direction: column;
@@ -63,15 +57,20 @@ const { src, alt, label, kind, ratio = "4 / 3", eager = false, class: cls } = As
     padding: 1rem;
     color: #fff;
     background:
-      radial-gradient(120% 90% at 30% 10%, oklch(0.62 0.14 62 / 0.55), transparent 60%),
-      radial-gradient(120% 120% at 90% 100%, oklch(0.34 0.09 40 / 0.7), transparent 55%),
-      linear-gradient(150deg, oklch(0.5 0.12 52), oklch(0.36 0.09 44));
+      radial-gradient(110% 80% at 78% 12%, oklch(0.78 0.135 85 / 0.45), transparent 58%),
+      linear-gradient(155deg, oklch(0.42 0.012 60), oklch(0.26 0.008 60));
   }
 
-  .figure--room {
+  .figure--crew {
     background:
-      radial-gradient(120% 90% at 20% 0%, oklch(0.7 0.05 70 / 0.5), transparent 55%),
-      linear-gradient(160deg, oklch(0.42 0.05 60), oklch(0.29 0.035 55));
+      radial-gradient(110% 85% at 22% 8%, oklch(0.48 0.11 150 / 0.45), transparent 60%),
+      linear-gradient(160deg, oklch(0.38 0.012 60), oklch(0.24 0.008 60));
+  }
+
+  .figure--damage {
+    background:
+      radial-gradient(120% 95% at 50% 105%, oklch(0.78 0.135 85 / 0.3), transparent 55%),
+      linear-gradient(150deg, oklch(0.33 0.01 60), oklch(0.22 0.008 60));
   }
 
   .figure__mark {

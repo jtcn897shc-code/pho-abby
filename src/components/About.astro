@@ -8,13 +8,13 @@ import Figure from "./Figure.astro";
   <div class="shell about__inner">
     <div class="about__text">
       <div class="section-head">
-        <h2>The place</h2>
+        <h2>Who we are</h2>
       </div>
       {about.map((para) => <p class="about__para">{para}</p>)}
     </div>
 
     <figure class="about__figure">
-      <Figure {...images.interior} ratio="7 / 5" />
+      <Figure {...images.crew} ratio="7 / 5" />
     </figure>
   </div>
 </section>

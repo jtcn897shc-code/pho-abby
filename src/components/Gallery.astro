@@ -3,13 +3,13 @@ import { images } from "../data/images";
 import Figure from "./Figure.astro";
 
 const shots = [
-  { fig: images.herbs, span: 5 },
-  { fig: images.grilledPork, span: 4 },
-  { fig: images.saladRolls, span: 3 },
+  { fig: images.workA, span: 5 },
+  { fig: images.workB, span: 4 },
+  { fig: images.workC, span: 3 },
 ];
 ---
 
-<section class="gallery" aria-label="A few plates">
+<section class="gallery" aria-label="Recent work">
   <div class="gallery__track">
     {
       shots.map((s) => (

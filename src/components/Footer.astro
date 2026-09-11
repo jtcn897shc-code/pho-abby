@@ -1,5 +1,5 @@
 ---
-import { contact, socials, site } from "../data/site";
+import { contact, serviceArea, socials, site } from "../data/site";
 const year = new Date().getFullYear();
 ---
 
@@ -7,16 +7,15 @@ const year = new Date().getFullYear();
   <div class="shell footer__inner">
     <div class="footer__brand">
       <span class="footer__word">{contact.name}</span>
+      <p class="footer__promise">{site.promise}</p>
       <p>{site.description}</p>
     </div>
 
     <div class="footer__col">
-      <h2>Find us</h2>
-      <p>
-        {contact.street}<br />
-        {contact.city}, {contact.region} {contact.postal}
-      </p>
+      <h2>Service area</h2>
+      <p>{serviceArea.cities.join(" · ")}</p>
       <a href={`tel:${contact.phoneTel}`}>{contact.phoneDisplay}</a>
+      <a href={`mailto:${contact.email}`}>{contact.email}</a>
     </div>
 
     {
@@ -46,10 +45,13 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
+  /* Charcoal, not gold — the brand gold cannot carry white text (see
+     tokens.css). Gold appears here as the rule above the wordmark only. */
   .footer {
-    background: var(--primary-deep);
+    background: var(--frame);
     color: var(--on-frame);
     padding-top: var(--section-y);
+    border-top: 5px solid var(--primary);
   }
 
   .footer__inner {
@@ -70,6 +72,15 @@ const year = new Date().getFullYear();
     max-width: 42ch;
     color: var(--on-frame-muted);
     font-size: 0.9rem;
+  }
+
+  .footer__promise {
+    color: var(--primary) !important;
+    font-weight: 700;
+  }
+
+  .footer__col a {
+    display: block;
   }
 
   .footer__col h2 {

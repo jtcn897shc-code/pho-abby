@@ -1,103 +1,91 @@
-# Pho Abby — discovery notes (in progress)
+# Discovery — Savanna Roofing Ltd.
 
-## DECISIONS (locked)
-- Deploy stage: **PITCH / preview only** → noindex, preview host, neutralise
-  unverified external links, "Site by Destura" credit stays.
-- Menu: appetizers are real; **pho / vermicelli / rice / drinks = clearly-marked
-  placeholder items** at plausible prices, every one commented
-  `TODO: confirm with Pho Abby`. No invented history beyond the confirmed
-  Feb-2024 opening.
-- Imagery: **AI-generate first** (check gen credit balance; fall back to Unsplash).
-  Two real client photos on hand as swap-in references.
+What we actually know, and what the site is currently guessing. Everything in
+the second list is a `TODO:` in `src/data/site.ts` and must be answered before
+launch.
 
-## Contact (confirmed from Google listing)
-- Name: Pho Abby
-- Address: 2100 Whatcom Rd, Unit 104, Abbotsford, BC V3G 2K8
-- Phone: (604) 302-8669  → tel:+16043028669
-- Website: pho-abby.ca
-- Cuisine: Vietnamese · price band $10–20 per person (258 reports)
+---
 
-## Proof (confirmed)
-- Rating: 4.6 stars, 435 Google reviews
-- Review quotes with names (usable, positive):
-  - Melanie Harrison — "We ordered the #8 noodle soup (rare beef and brisket),
-    and a prawn salad roll."
-  - Shalla Guertin — "Rare beef pho was filling and fried rice was crispy and
-    flavorful."
-  - Tamara R (DoorDash, 2024-05-10) — "The pho broth is exquisite, the bubble
-    tea is refreshing and smooth, and the owner is so kind and welcoming. I
-    definitely recommend!"  ← strong pull-quote
-  - (unattributed, from summary) "Great food, great service, and a unique
-    atmosphere. Definitely will come back." / "Large portions, quickly served,
-    clean and good food." / "The pho is huge; I've not been able to finish it yet!"
-  - SKIP negative: Mia Harling (1-star).
-  - Schema note: Tamara's is a DoorDash review — keep it VISUAL only, never in
-    JSON-LD aggregateRating (playbook rule).
+## Confirmed
 
-## Story / founding (confirmed — from their own Google profile "From Pho Abby")
-- Grand opening **February 2024**. Family-run Vietnamese restaurant on Whatcom Rd.
-- Blurb (truncated as captured): "Embark on a culinary journey to Vietnam right
-  in the heart of Abbotsford. Pho Abby, a celebrated Vietnamese restaurant, has
-  been delighting the community since its grand opening in February 2024. Located
-  at 2100 Whatcom Rd, Pho Abby is dedicated to..." — NEED full text.
+Sourced from Savanna Roofing's own public Facebook post (Sep 1) and their logo.
 
-## Socials
-- Instagram: https://www.instagram.com/pho_abby_abbotsford/  (confirmed)
-- Facebook: linked on Google profile — URL still NEEDED
+**Identity**
+- Legal/trading name: Savanna Roofing Ltd.
+- Sign-off line, already theirs: *"Protecting what's beneath your roof."*
+- Logo: giraffe and acacia tree against a savanna sun, over a gable roofline.
+  Gold, forest green, charcoal on cream. Distinctive in a category of navy
+  shields — it is the brand's strongest asset.
 
-## Features (confirmed)
-- Vegetarian options · high chairs · dine-in · pickup · delivery
-- Menu highlights called out by Google: Pork Meatball Pho, Complimentary Tea
-- Also promoted on their posts: Vermicelli bowl w/ grilled skewers & shrimp,
-  Rare Beef & Brisket Pho.
+**Services**
+- Roof-leak detection
+- Emergency water containment
+- Repair solutions — flat-roof systems and asphalt-shingle roofs
+- Residential and commercial
+- Active leaks and preventative maintenance
 
-## MENU (transcribing from photos — partial)
+**The differentiator** — their words:
+> "When a permanent exterior repair cannot be completed safely during heavy
+> rain, we can assess the source, help contain further water intrusion and
+> arrange the appropriate long-term repair."
 
-### Appetizers  (menu photo 1)
-- 17A. Deep fried chicken with salt and lime leaves — 15
-- 18.  Deep fried chicken wings (8 wings), sweet Thai chilli or buffalo hot sauce — TODO price
-- 18A. Deep fried tofu with garlic (spicy or not spicy) — TODO price
-- 19.  Spring roll, pork (3 rolls), served with fish sauce — 12
-- 19A. Spring roll, shrimp (5 rolls), served with sweet chili sauce — 10
-- 19B. Deep fried wonton (10 pcs), sweet chilli sauce — 14
-- 20.  Salad rolls (2 rolls) — prawn / grilled pork / grilled chicken / prawn+pork
-       ham / veggie — 12
-- Footer note: "Please notify us if you have any food allergies."
-- NOTE: their item numbers (17A/18/18A...) are idiosyncratic — likely drop on the
-  site, or show as a small muted tag. Decide in Phase 3.
+**Service area**
+Vancouver · Burnaby · Richmond · Delta · Surrey · Coquitlam
 
-### Pho — TODO (need photo)
-### Vermicelli / bun — TODO
-### Rice plates / com — TODO (grilled pork plate photo exists)
-### Fried rice / chow mein — TODO (reviews mention fried rice)
-### Drinks — TODO (complimentary hot tea; bubble tea confirmed via review;
-###   Vietnamese coffee likely — need list + prices)
+**Intake fields they already ask for**
+Location · roof type · interior photos · exterior photos · best contact number
 
-## Imagery on hand
-- Interior photo (chevron-panel accent wall w/ hanging plants, slate floor,
-  storefront window onto parking lot) — usable for About/atmosphere
-- Grilled pork + broken rice plate w/ spring rolls, pickled veg, nuoc cham —
-  usable for a Favourites feature
+**Assets**
+19+ real job photos exist on their Facebook page, including a strong
+drone/ridge shot of a completed charcoal shingle roof in a PNW neighbourhood.
 
-## Hours (from Google; "hours might differ")
-- Mon: 10:00–21:00
-- Tue: 10:00–21:00
-- Wed: 10:00–21:00   (Google showed "1 a.m." — obvious scrape typo; TODO: confirm open time)
-- Thu: 10:00–21:00
-- Fri: 10:00–21:00
-- Sat: 10:00–21:00
-- Sun: 10:00–20:30
-- Single TODO: confirm Wed open time + whole set with the owner.
+---
 
-## STILL NEEDED
-- [ ] Rest of the menu: pho, vermicelli/bun, rice/com, fried rice/chow mein,
-      drinks — every item + price (remaining menu photos, or DoorDash/UberEats)
-- [ ] Prices for appetizer #18 and #18A
-- [x] Weekly hours captured (confirm Wed open time)
-- [ ] Verified pickup + delivery URLs (DoorDash / UberEats / Skip store pages)
-- [x] Instagram: pho_abby_abbotsford  |  [ ] Facebook URL still needed
-- [ ] Full "From Pho Abby" story text (currently truncated)
-- [x] Founding year — February 2024 (confirmed)
-- [x] Review names — Melanie Harrison, Shalla Guertin (positive); skip Mia Harling
-- [ ] Deploy stage: signed vs pitch/preview
-- [ ] Imagery decision: AI-gen vs Unsplash vs their photos (2 real photos on hand)
+## Open — blocking launch
+
+1. **Phone number.** The site ships with `(604) 555-0142`, a reserved fictional
+   number that cannot ring anyone. An emergency-led roofing site without a real
+   tappable number is non-functional. Highest priority by a distance.
+2. **Email address.** `info@savannaroofing.ca` is invented.
+3. **Availability.** Is the emergency line genuinely 7 days? After hours? The
+   site currently claims "storm and active-leak calls answered 7 days a week"
+   and "most calls returned within the hour" — both invented, and both are
+   promises that get quoted back at you.
+4. **Quote intake destination.** Static build, no server. Pick one:
+   - a form service with file upload (Formspree / Web3Forms / Netlify Forms) —
+     recommended, since photos are half the value of the intake;
+   - or keep the current checklist + phone + Messenger fallback.
+5. **Credentials.** Liability insurance amount, WorkSafeBC clearance number,
+   workmanship warranty term and what it covers, founding year. All four are
+   currently placeholder. A wrong insurance or WorkSafeBC claim is a legal
+   problem, not a copy problem.
+
+## Open — needed for a good site, not blocking
+
+6. **Testimonials.** There are none on the site — only flagged samples.
+   Publishing invented reviews for a real contractor is deceptive advertising
+   (Competition Act s.74.01). Get real Google reviews, or delete the block.
+7. **The origin story.** Where does the name "Savanna" come from, and the
+   giraffe? This is the most memorable thing about the brand and the About
+   section is currently a placeholder because it should not be guessed.
+8. **Street address.** Do they publish one? Not required, but a verifiable
+   address materially helps Google Business Profile ranking. If yes, add
+   `PostalAddress` + `geo` to the JSON-LD in `Base.astro`.
+9. **Photos at full resolution.** The screenshots supplied so far are 1260×2736
+   with app chrome; the usable area is ~1260×1745, too short for a full-bleed
+   hero. Need the originals.
+10. **Logo vector.** Nav and footer currently use a stand-in roofline glyph.
+11. **Systems and brands.** Which membrane systems for flat roofs, which shingle
+    brands, any manufacturer certification. Four of the five service groups are
+    marked `sample` on the page until this is answered.
+12. **Domain.** Site currently builds to the GitHub Pages preview path.
+13. **Google Business Profile / Instagram** URLs, if they exist.
+
+## Later
+
+- **City landing pages.** Six municipalities is six `/roofing-<city>` routes
+  worth of local SEO, via a dynamic route off `serviceArea.cities`. Only worth
+  building once there is real content per city (jobs done, photos) — thin
+  duplicated city pages are penalised, not rewarded.
+- **Before/after pairs.** The single most persuasive asset a roofer has, and
+  none are wired yet.

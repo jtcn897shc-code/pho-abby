@@ -1,0 +1,367 @@
+---
+import {
+  contact,
+  credentials,
+  ctas,
+  hours,
+  hoursFootnote,
+  quoteIntake,
+  serviceArea,
+} from "../data/site";
+
+const to12 = (t: string) => {
+  const [h, m] = t.split(":").map(Number);
+  const ap = h >= 12 ? "pm" : "am";
+  const hh = h % 12 === 0 ? 12 : h % 12;
+  return m === 0 ? `${hh} ${ap}` : `${hh}:${String(m).padStart(2, "0")} ${ap}`;
+};
+---
+
+<section class="section area" id="quote">
+  <div class="shell area__inner">
+    <div class="area__details">
+      <div class="section-head">
+        <h2>Where we work</h2>
+        <p>{serviceArea.note}</p>
+      </div>
+
+      <ul class="cities">
+        {serviceArea.cities.map((c) => <li>{c}</li>)}
+      </ul>
+
+      <a class="area__phone" href={`tel:${contact.phoneTel}`}>{contact.phoneDisplay}</a>
+      <p class="area__response">{contact.responseNote} · {contact.emergencyNote}</p>
+
+      <dl class="hours" data-hours>
+        {
+          hours.map((h, i) => (
+            <div class="hours__row" data-day={i}>
+              <dt>{h.day}</dt>
+              <dd>
+                {to12(h.open)} – {to12(h.close)}
+                <span class="hours__state" hidden />
+              </dd>
+            </div>
+          ))
+        }
+      </dl>
+      <p class="hours__foot">{hoursFootnote}</p>
+
+      <ul class="creds">
+        {
+          credentials.map((c) => (
+            <li>
+              <span class="creds__label">{c.label}</span>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+
+    <!--
+      Intake panel. Deliberately NOT an HTML form yet: with no backend and no
+      form-service endpoint wired (quoteIntake.endpoint is empty), a <form>
+      would submit into nothing and silently swallow leads — the worst possible
+      failure on a contractor site. It renders as a checklist plus two CTAs that
+      actually work today. Wire an endpoint, and this becomes a real form.
+    -->
+    <aside class="intake">
+      <h3>Get a quote</h3>
+      <p class="intake__lede">
+        Send these five things and we can usually tell you what you're dealing
+        with before we roll a truck.
+      </p>
+
+      <ol class="intake__list">
+        {
+          quoteIntake.fields.map((f) => (
+            <li>
+              <span class="intake__field">{f.label}</span>
+              <span class="intake__hint">{f.hint}</span>
+            </li>
+          ))
+        }
+      </ol>
+
+      <p class="intake__safety">{quoteIntake.safetyNote}</p>
+
+      <div class="intake__cta">
+        <a class="btn" href={ctas.emergency.href}>Call {contact.phoneDisplay}</a>
+        <a class="btn--ghost" href={ctas.message.href} target="_blank" rel="noopener">
+          {ctas.message.label}
+        </a>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<style>
+  .area {
+    background: var(--surface);
+  }
+
+  .area__inner {
+    display: grid;
+    grid-template-columns: 1.05fr 0.95fr;
+    gap: clamp(2rem, 6vw, 4rem);
+    align-items: start;
+  }
+
+  .cities {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .cities li {
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-pill);
+    background: var(--bg);
+    border: 1px solid var(--hairline);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .area__phone {
+    display: inline-block;
+    margin-top: var(--s-8);
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    color: var(--primary-text);
+    text-decoration: none;
+    min-height: 44px;
+  }
+
+  .area__phone:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .area__response {
+    margin-top: var(--s-2);
+    font-size: 0.88rem;
+    color: var(--muted);
+  }
+
+  .hours {
+    margin-top: var(--s-8);
+    border-top: 1px solid var(--hairline);
+  }
+
+  .hours__row {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--hairline);
+    font-size: 0.95rem;
+  }
+
+  .hours__row dt {
+    color: var(--muted);
+  }
+
+  .hours__row dd {
+    margin: 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .hours__row.is-today dt,
+  .hours__row.is-today dd {
+    color: var(--ink);
+    font-weight: 700;
+  }
+
+  .hours__row.is-today dt {
+    position: relative;
+    padding-left: 1rem;
+  }
+
+  .hours__row.is-today dt::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.5em;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--accent);
+  }
+
+  .hours__state {
+    margin-left: 0.5rem;
+    font-weight: 700;
+    font-size: 0.82rem;
+  }
+
+  .hours__state[data-open="yes"] {
+    color: var(--accent-deep);
+  }
+
+  .hours__state[data-open="no"] {
+    color: var(--muted);
+  }
+
+  .hours__foot {
+    margin-top: var(--s-3);
+    font-size: 0.8rem;
+    color: var(--muted);
+    max-width: 46ch;
+  }
+
+  .creds {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--s-8);
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .creds li {
+    position: relative;
+    padding-left: 1.65rem;
+    font-size: 0.92rem;
+    font-weight: 600;
+  }
+
+  /* Check mark drawn in CSS — the green accent as a mark, never as small text */
+  .creds li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.28em;
+    width: 0.5rem;
+    height: 0.85rem;
+    border: solid var(--accent);
+    border-width: 0 2.5px 2.5px 0;
+    transform: rotate(45deg);
+  }
+
+  /* ---- intake panel ---- */
+  .intake {
+    position: sticky;
+    top: 5.5rem;
+    background: var(--bg);
+    border: 1px solid var(--hairline);
+    border-top: 4px solid var(--primary);
+    border-radius: var(--radius);
+    padding: clamp(1.4rem, 3.5vw, 2rem);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .intake h3 {
+    font-size: clamp(1.4rem, 3vw, 1.8rem);
+    font-weight: 800;
+  }
+
+  .intake__lede {
+    margin-top: var(--s-3);
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .intake__list {
+    margin: var(--s-6) 0 0;
+    padding-left: 1.25rem;
+    display: grid;
+    gap: var(--s-3);
+  }
+
+  .intake__list li::marker {
+    color: var(--primary-text);
+    font-weight: 800;
+  }
+
+  .intake__field {
+    display: block;
+    font-weight: 700;
+  }
+
+  .intake__hint {
+    display: block;
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.45;
+  }
+
+  .intake__safety {
+    margin-top: var(--s-6);
+    padding: var(--s-3) var(--s-4);
+    border-radius: var(--radius);
+    background: var(--accent-tint);
+    color: var(--accent-deep);
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .intake__cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--s-3);
+    margin-top: var(--s-6);
+  }
+
+  @media (max-width: 980px) {
+    .area__inner {
+      grid-template-columns: 1fr;
+    }
+    .intake {
+      position: static;
+      order: -1;
+    }
+  }
+</style>
+
+<script>
+  // Mark today's row and compute open/closed in America/Vancouver, client-side
+  // (a build-time "today" would be wrong). Colour is not the only signal — the
+  // day goes bold and an "· open now / closed now" label is added.
+  type Row = { open: string; close: string };
+  const rows: Row[] = [
+    { open: "07:00", close: "18:00" },
+    { open: "07:00", close: "18:00" },
+    { open: "07:00", close: "18:00" },
+    { open: "07:00", close: "18:00" },
+    { open: "07:00", close: "18:00" },
+    { open: "08:00", close: "16:00" },
+    { open: "08:00", close: "16:00" },
+  ];
+
+  const parts = new Intl.DateTimeFormat("en-CA", {
+    timeZone: "America/Vancouver",
+    weekday: "short",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).formatToParts(new Date());
+
+  const wd = parts.find((p) => p.type === "weekday")?.value ?? "Mon";
+  const hour = Number(parts.find((p) => p.type === "hour")?.value ?? "0");
+  const min = Number(parts.find((p) => p.type === "minute")?.value ?? "0");
+  const nowMin = hour * 60 + min;
+
+  const order = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+  const idx = order.indexOf(wd); // 0 = Monday, matches data order
+
+  if (idx > -1) {
+    const container = document.querySelector("[data-hours]");
+    const row = container?.querySelector<HTMLElement>(`[data-day="${idx}"]`);
+    if (row) {
+      row.classList.add("is-today");
+      const [oh, om] = rows[idx].open.split(":").map(Number);
+      const [ch, cm] = rows[idx].close.split(":").map(Number);
+      const openMin = oh * 60 + om;
+      const closeMin = ch * 60 + cm;
+      const isOpen = nowMin >= openMin && nowMin < closeMin;
+      const state = row.querySelector<HTMLElement>(".hours__state");
+      if (state) {
+        state.hidden = false;
+        state.textContent = isOpen ? "· open now" : "· closed now";
+        state.dataset.open = isOpen ? "yes" : "no";
+      }
+    }
+  }
+</script>

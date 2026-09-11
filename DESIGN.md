@@ -1,170 +1,173 @@
-# DESIGN.md — Pho Abby
+# DESIGN.md — Savanna Roofing Ltd.
 
-Authored from the Destura Astro one-pager playbook Phase 3, the `impeccable`
-brand seed (`oklch(0.774 0.174 65.1)`, honey-amber), and structural precedent
-from `awesome-design-md`: **starbucks** (four-tier brand-colour system mapped to
-surface roles, colour-block page rhythm, full-pill buttons, whisper shadows) and
-**airbnb** (one brand voltage carries every primary CTA, photography over
-typographic muscle, no hard corners).
+Palette read directly off the company logo: savanna gold (the sun), acacia green
+(the tree and the hills), charcoal (the wordmark), on white. Structure inherited
+from the Destura Astro one-pager playbook.
 
-Mood phrase: *"the dark spice bundle at the bottom of the pot — star anise,
-charred cassia, clove — lacquer-brown and glossy, with one bright snap of thai
-basil."*
+Mood phrase: *"charcoal shingle still wet from the last of the rain, with the
+sun coming in low and gold behind it."*
 
 ---
 
 ## 1. Visual Theme & Atmosphere
 
-Pure-white page. Warmth comes entirely from a **committed deep lacquer-amber**
-(`--primary`) that carries 35–55% of the surface: the hero frame, one value
-strip, every section heading, all primary CTAs, and the footer. The amber is
-**dark and glossy, not bright orange** — deliberately not the Vietnamese-flag
-red/yellow category reflex, and not a warm-cream "cozy" wash (both are tells).
-One accent only: a **thai-basil green**, used for < 8% of the surface — today's
-hours row, the veg-option pill, link underlines, the "open now" dot.
+Pure-white page. The weight comes from **charcoal** — it is both the wordmark
+colour and, conveniently, the colour of the roofs this company installs. The
+**gold** is the voltage: one value strip, the emergency services block, every
+primary button, the rule above every section heading, the top edge of the
+footer. **Acacia green** is a mark only — check ticks, today's hours dot, link
+underlines — under 8% of the surface.
 
-The page has a beat: white editorial sections alternate with two full-bleed
-**dark-amber frames** (Favourites, Footer) and one **amber value strip**.
-Geometry is soft — 10px on cards and images, full-pill on buttons and tag
-pills, no hard corners anywhere. Elevation is a whisper (`0 1px 2px` +
-`0 8px 24px` at 0.06–0.10 alpha, tinted warm, never pure black).
+The page has a beat: white editorial sections alternate with a gold strip, a
+gold emergency block, and two charcoal frames (Leak response, Footer).
+
+Geometry is tighter than a hospitality build — **8px** on cards, images and
+buttons, pill reserved for chips (nav phone, tag pills). A trade site should
+read built, not soft. Elevation is a whisper, tinted neutral-warm, never pure
+black.
 
 ## 2. Colour Palette & Roles (OKLCH)
 
 | Token | Value | Role |
 |---|---|---|
-| `--bg` | `oklch(1 0 0)` | page background — pure white, no hidden warmth |
-| `--surface` | `oklch(0.976 0.004 70)` | alternating section wash; barely-there, not cream |
-| `--frame` | `oklch(0.28 0.035 55)` | full-bleed dark frames (Favourites, Footer), hero scrim base |
-| `--ink` | `oklch(0.24 0.014 55)` | body text — 12.6:1 on `--bg` |
-| `--muted` | `oklch(0.50 0.012 55)` | secondary text — 4.9:1 on `--bg` |
-| `--on-frame` | `oklch(0.95 0.008 70)` | text on `--frame` |
-| `--on-frame-muted` | `oklch(0.78 0.012 70)` | secondary text on `--frame` |
-| `--primary` | `oklch(0.475 0.115 52)` | committed brand amber — headings, CTAs, strip, frame tint |
-| `--primary-deep` | `oklch(0.33 0.08 48)` | footer base, pressed CTA, hairline on amber |
-| `--primary-bright` | `oklch(0.70 0.15 62)` | hover glow, small glints, focus ring (≈ the impeccable seed) |
-| `--accent` | `oklch(0.60 0.115 148)` | thai-basil green — today's hours, veg pill, link underline, open dot |
-| `--hairline` | `oklch(0.90 0.006 60)` | 1px borders / dotted menu leaders on white |
-| `--hairline-frame` | `oklch(1 0 0 / 0.16)` | 1px borders on dark frames |
+| `--bg` | `oklch(1 0 0)` | page background — pure white |
+| `--surface` | `oklch(0.975 0.006 85)` | alternating wash; a nod at the logo cream, not a cream page |
+| `--frame` | `oklch(0.25 0.008 60)` | charcoal full-bleed frames (Leak response, Footer), hero scrim |
+| `--ink` | `oklch(0.22 0.008 60)` | body text and **all headings** — 14:1 on `--bg` |
+| `--muted` | `oklch(0.50 0.008 60)` | secondary text — 4.9:1 on `--bg` |
+| `--on-frame` | `oklch(0.96 0.004 85)` | text on `--frame` |
+| `--on-frame-muted` | `oklch(0.78 0.006 85)` | secondary text on `--frame` |
+| `--primary` | `oklch(0.78 0.135 85)` | savanna gold — **fills only** |
+| `--primary-deep` | `oklch(0.66 0.13 80)` | hover fill, rules on gold |
+| `--primary-bright` | `oklch(0.87 0.115 92)` | focus ring, glints |
+| `--primary-text` | `oklch(0.52 0.115 72)` | deep ochre — the only gold allowed as text on white (5.8:1) |
+| `--on-primary` | `oklch(0.20 0.01 60)` | charcoal text on every gold fill (6.0:1) |
+| `--accent` | `oklch(0.48 0.11 150)` | acacia green — ticks, today's row, link underlines |
+| `--accent-deep` | `oklch(0.38 0.09 150)` | green as small text, strip bullets |
+| `--hairline` | `oklch(0.90 0.004 70)` | 1px borders on white |
+| `--hairline-frame` | `oklch(1 0 0 / 0.16)` | 1px borders on charcoal |
 
-Contrast: white text on `--primary` = 6.8:1 ✓. `--ink` on `--surface` = 12.1:1 ✓.
-`--accent` on white = 3.4:1 → use for non-text marks + underlines, or with a
-weight bump for the one-word "Open" label; never small body text.
+**The contrast rule that governs this palette.** The brand gold is bright
+(L 0.78). It therefore:
 
-Text-on-fill rule: **white text on every amber fill** (Helmholtz-Kohlrausch —
-dark text on saturated amber reads muddy). Dark `--ink` text only on white,
-`--surface`, or the pale `--accent`-tint pill.
+- **cannot carry white text** — 2.3:1, fails. Gold fills take `--on-primary`.
+- **cannot be text on white** — also 2.3:1, fails. Headings are `--ink`, and
+  the gold appears as a short rule above the heading instead.
+- has exactly one text-safe form, `--primary-text`, for the phone number and
+  list markers on white.
+
+This is how the logo itself is built: charcoal wordmark, gold bars beneath it.
+Follow it and the contrast problems disappear.
 
 ## 3. Typography
 
-**One family, many weights: Schibsted Grotesk Variable** (`@fontsource-variable/
-schibsted-grotesk`), 400 / 500 / 700 / 900. Characterful grotesque — editorial,
-a little warm, not on the 2026 reflex list. No second family. No serif. Hierarchy
-is weight + size + colour, never a font swap.
+**One family, many weights: Schibsted Grotesk Variable**, 400 / 500 / 700 / 900.
+No second family, no serif. Hierarchy is weight + size + colour, never a font
+swap.
 
 | Step | clamp | weight | tracking | use |
 |---|---|---|---|---|
 | display | `clamp(2.6rem, 7vw, 4.6rem)` | 900 | `-0.03em` | hero headline (≤ 2 lines) |
-| h2 | `clamp(1.9rem, 4vw, 2.9rem)` | 800 | `-0.02em` | section headings (amber) |
-| h3 | `clamp(1.15rem, 2vw, 1.4rem)` | 700 | `-0.01em` | menu group headings, card titles |
+| h2 | `clamp(1.9rem, 4vw, 2.9rem)` | 800 | `-0.02em` | section headings (charcoal, gold rule above) |
+| h3 | `clamp(1.15rem, 2vw, 1.4rem)` | 700 | `-0.01em` | service group headings, card titles |
 | lead | `clamp(1.05rem, 1.6vw, 1.2rem)` | 400 | `0` | hero sub, about opener |
 | body | `1rem` / `1.6` | 400 | `0` | prose, capped 66ch |
-| price | `1rem` | 500 | `0` | menu prices — `font-variant-numeric: tabular-nums` |
-| micro | `0.82rem` | 600 | `0.02em` | nav links, pill labels, footer meta (used sparingly, not as an eyebrow on every section) |
+| micro | `0.82rem` | 600 | `0.02em` | nav links, pills, footer meta — never an eyebrow on every section |
 
 `text-wrap: balance` on h1–h3; `text-wrap: pretty` on prose.
 
 ## 4. Component Stylings
 
-**Buttons** — full pill, `padding: 0.75rem 1.4rem`, weight 600, `transition:
-transform .18s, background-color .18s, box-shadow .18s`. Active: `scale(0.97)`.
-Focus-visible: `2px` `--primary-bright` ring + `2px` offset.
-- **Primary** (`.btn`): `--primary` bg, white text. Hover: bg `--primary-deep`,
-  lift `translateY(-1px)` + soft `--primary` glow.
-- **Ghost** (`.btn--ghost`): transparent, `1px` `--ink` border, `--ink` text.
-  Hover: bg `--ink`, white text.
-- **On-frame** (`.btn--on-frame`): white bg, `--primary` text — used inside the
-  dark frames (starbucks inverted pattern). Ghost-on-frame: `1px` white border,
-  white text.
-- **Phone pill** (nav, persistent): pill, `--primary` text, `1px` `--primary`
-  border, phone glyph + number; collapses to glyph-only < 420px, min 44px tap.
+**Buttons** — 8px radius, `padding: 0.75rem 1.4rem`, weight 600, min-height 44px.
+Active: `scale(0.97)`. Focus-visible: 2px `--primary-bright` ring, 2px offset.
+- **Primary** (`.btn`): gold fill, `--on-primary` charcoal text. Hover:
+  `--primary-deep`, lift 1px, soft gold glow.
+- **Ghost** (`.btn--ghost`): transparent, 1px `--ink` border. Hover: ink fill.
+- **On-frame** (`.btn--on-frame`): gold fill on the charcoal frames — the
+  loudest element on the page, reserved for the emergency CTA.
+- **Phone pill** (nav, persistent): pill, 1px border, phone glyph + number;
+  collapses to glyph-only < 420px, min 44px tap.
 
-**Nav** — sticky, transparent over hero, solidifies to `--bg` + `--hairline`
-bottom border + whisper shadow when a 1px sentinel above the hero leaves the
-viewport (IntersectionObserver, never a scroll listener). Wordmark left, section
-anchors centre (hidden < 760px), phone pill right (always visible).
+**Nav** — sticky with a negative bottom margin so the hero sits *under* it;
+transparent over the hero, solidifying to white + hairline + whisper shadow once
+a 1px sentinel leaves the viewport (IntersectionObserver, never a scroll
+listener). Without the negative margin the light nav text renders white-on-white
+before first scroll.
 
-**Menu row** — CSS grid `[name] 1fr [leader] auto [price]`. Name (+ optional
-pill tag). Dotted leader (`border-bottom: 1px dotted --hairline`, baseline
-aligned). Price right, tabular. Group heading in `--primary`, weight 700, with a
-short `--muted` note line under it where useful. Groups laid out
-`repeat(auto-fit, minmax(280px, 1fr))`; short groups (≤ 4 rows) stay one column.
+**Services** — five groups. Group 1 (`Active leak, right now`) spans the full
+grid on a gold field with charcoal text and a two-column item list; the other
+four are plain auto-fit columns with a gold underline on the heading. Items are
+name + one-line note, no prices — a roofing quote is site-specific and invented
+pricing is a liability.
 
-**Cards** — used only for Favourites and Gallery; 10px radius, `--surface` or
-photo fill, whisper shadow. **No nested cards.** Everywhere else is plain
-sectioned prose + grids.
+**Leak response** — charcoal frame. A gold-bordered feature card (`We come out
+in the rain`) spanning two rows, plus two numbered steps in gold discs.
 
-**Tag pill** — `--accent` at 12% tint bg, `--accent`-dark text, pill, `0.72rem`
-weight 600. Only for "Vegetarian" / "Contains shellfish" style flags.
+**Intake panel** — white card, 4px gold top edge, sticky beside the service
+area. A numbered checklist of the five things to send, a green safety note, and
+two live CTAs. Not a `<form>` until an endpoint exists — see PRODUCT.md.
 
-**Hours `<dl>`** — `<div>` rows, `<dt>` day / `<dd>` time. Today's row: `--accent`
-left of the day name as a filled dot **and** the day set in weight 700 with an
-"· open now / closed" text label — colour is never the only signal.
+**Tag pill** — green at 12% tint, `--accent-deep` text. Inverted to charcoal-on-
+gold inside the emergency block, where the tint is invisible.
+
+**Hours `<dl>`** — today's row gets a green dot **and** bold weight **and** an
+"· open now / closed now" text label. Colour is never the only signal.
 
 ## 5. Layout Principles
 
-- Shell: `max-width: 74rem`, gutter `clamp(1.1rem, 4vw, 2.5rem)`. Full-bleed
-  frames break out edge-to-edge; their inner content keeps the shell width.
-- Vertical rhythm: sections `clamp(3.5rem, 9vw, 7rem)` block padding; vary it —
-  Hero and Visit get more, Value strip gets less.
-- Space scale (rem): 0.25 / 0.5 / 0.75 / 1 / 1.5 / 2 / 3 / 4 / 6.
-- ≥ 4 distinct section layout families: full-bleed hero, horizontal strip,
-  multi-column auto-fit menu, asymmetric feature + quotes frame, offset
-  image + prose, split map + details. No two sections share a skeleton.
-- Body copy blocks capped at 66ch.
+- Shell `max-width: 74rem`, gutter `clamp(1.1rem, 4vw, 2.5rem)`. Full-bleed
+  frames break out; inner content keeps shell width.
+- Vertical rhythm: `clamp(3.5rem, 9vw, 7rem)` block padding; vary it — hero and
+  service area get more, the value strip less.
+- ≥ 4 distinct section skeletons: full-bleed hero, horizontal strip, auto-fit
+  services grid with one spanning block, asymmetric feature frame, offset
+  image + prose, 12-column gallery band, split details + sticky panel. No two
+  sections share a layout.
+- Body copy capped at 66ch.
 
 ## 6. Depth & Elevation
 
-Two shadows only, both warm-tinted (hue 55), never pure black:
-- `--shadow-sm`: `0 1px 2px oklch(0.3 0.03 55 / 0.10)` — nav solid, menu hover.
-- `--shadow-lg`: `0 8px 30px oklch(0.3 0.03 55 / 0.10)` — Favourites feature
-  card, sticky map panel, phone pill on hover.
-Dark frames use border (`--hairline-frame`) for separation, not shadow.
+Two shadows only, tinted charcoal-warm, never pure black:
+- `--shadow-sm`: `0 1px 2px oklch(0.25 0.008 60 / 0.12)` — solid nav.
+- `--shadow-lg`: `0 8px 30px oklch(0.25 0.008 60 / 0.12)` — intake panel,
+  about figure.
+Charcoal frames separate with `--hairline-frame`, not shadow.
 
 ## 7. Do's and Don'ts
 
-**Do:** pure-white bg; one committed amber + one green accent; one type family;
-dotted leader on menu rows (the one place that convention belongs); today's hours
-row doubly marked; every image commented for client swap; steam motion visible
-by default with a reduced-motion static fallback.
+**Do:** white page; charcoal headings with a gold rule; gold as fill only; green
+as a mark only; one type family; the emergency block first and widest; drizzle
+on the hero with a full reduced-motion off-switch; every image commented for
+client swap; every invented fact a visible TODO.
 
-**Don't:** cream/beige canvas; second accent; second font; serif; eyebrow kicker
-above every section (micro style is for nav/pills/footer only); 01/02/03 markers;
-identical card grids; nested cards; side-stripe borders; gradient text;
-glassmorphism; hero carousel; `aggregateRating` in JSON-LD from Google/DoorDash
-(show it visually only); scroll-gated content reveals (they ship blank in
-headless renderers).
+**Don't:** white text on gold; gold text on white; navy-and-red contractor
+palette; shield crests; cream canvas; second accent; second font; serif; eyebrow
+kicker on every section; 01/02/03 markers; identical 3-up service cards; nested
+cards; gradient text; glassmorphism; hero carousel; `aggregateRating` in JSON-LD
+before real first-party reviews exist; a `<form>` with no endpoint behind it.
 
 ## 8. Responsive Behaviour
 
-- Breakpoints: 420 (phone pill → glyph), 620 (menu → 1 col, gallery →
-  scroll-snap), 760 (nav anchors hide), 980 (Visit split → stacked, map first).
-- Touch targets ≥ 44px; `tel:` link ≥ 44px.
-- No horizontal scroll at 360px — test hero headline copy at every step.
+- Breakpoints: 420 (phone pill → glyph), 620 (services → 1 col, gallery →
+  scroll-snap), 720 (leak grid → 1 col), 760 (nav anchors hide), 980 (service
+  area split → stacked, intake panel first).
+- Touch targets ≥ 44px; `tel:` links ≥ 44px.
+- No horizontal scroll at 360px — verified.
 - Hero image `loading="eager" fetchpriority="high"`; all others lazy.
-- Steam motion off under `prefers-reduced-motion`; also pause when tab hidden.
+- Drizzle off under `prefers-reduced-motion`; paused when the tab is hidden.
 
 ## 9. Agent Prompt Guide
 
-Quick palette: bg `#ffffff`; amber `--primary oklch(0.475 0.115 52)`; green
-`--accent oklch(0.60 0.115 148)`; ink `oklch(0.24 0.014 55)`; dark frame
-`oklch(0.28 0.035 55)`.
+Quick palette: bg `#ffffff`; gold fill `--primary oklch(0.78 0.135 85)` with
+charcoal `--on-primary` text on it; charcoal frame `oklch(0.25 0.008 60)`; green
+mark `--accent oklch(0.48 0.11 150)`; ink `oklch(0.22 0.008 60)`.
 
-Prompt: "Build a warm, quick, unfussy one-page site for a family Vietnamese
-restaurant. Pure-white page, one deep lacquer-amber carrying headings / CTAs /
-one strip / footer / a dark frame, one thai-basil-green accent for the 'open
-now' / veg / links. Schibsted Grotesk only, hierarchy by weight. Soft 10px
-corners, full-pill buttons. The menu must scan in one pass: group heading, name,
-dotted leader, tabular price. Alternate white sections with dark-amber frames for
-rhythm. One motion: steam rising over the hero, reduced-motion safe. No cream, no
-serif, no eyebrow-on-every-section, no card grid."
+Prompt: "Build a steady, direct one-page site for a Metro Vancouver roofing
+company whose differentiator is that they attend active leaks during heavy rain.
+Pure-white page, charcoal headings each with a short gold rule above, savanna
+gold used only as fills — buttons, one value strip, the emergency services block
+— always with charcoal text on it, never white. Acacia green only as ticks and
+marks. Schibsted Grotesk only, hierarchy by weight. 8px corners. The emergency
+services group is first and spans full width on a gold field. One motion:
+drizzle falling over the hero, reduced-motion safe. No navy-and-red contractor
+palette, no shields, no urgency theatre, no cream, no serif."

@@ -1,45 +1,45 @@
 ---
-import { favourites, reviews, contact } from "../data/site";
+import { leakResponse, reviews } from "../data/site";
 import { images } from "../data/images";
 import Figure from "./Figure.astro";
 
 const imgFor = {
-  "pho-bowl": images.phoBowl,
-  "grilled-pork": images.grilledPork,
-  "starter-chicken": images.starterChicken,
+  leakResponse: images.leakResponse,
+  inspection: images.inspection,
+  flatRoof: images.flatRoof,
 } as const;
 ---
 
-<section class="section frame favourites" id="favourites">
+<section class="section frame leak" id="leak-response">
   <div class="shell">
     <div class="section-head">
-      <h2>What people order</h2>
-      <p class="favourites__lede">
-        Rated {contact.ratingValue} on {contact.ratingSource} across
-        {contact.ratingCount} reviews.
-      </p>
+      <h2>When the water's already in</h2>
+      <p class="leak__lede">{leakResponse.lede}</p>
     </div>
 
-    <div class="favourites__grid">
-      <article class="fav fav--feature">
-        <div class="fav__media">
-          <Figure {...imgFor[favourites.feature.img]} ratio="4 / 3" />
+    <div class="leak__grid">
+      <article class="step step--feature">
+        <div class="step__media">
+          <Figure {...imgFor[leakResponse.feature.img]} ratio="4 / 3" />
         </div>
-        <div class="fav__text">
-          <h3>{favourites.feature.title}</h3>
-          <p>{favourites.feature.body}</p>
+        <div class="step__text">
+          <h3>{leakResponse.feature.title}</h3>
+          <p>{leakResponse.feature.body}</p>
         </div>
       </article>
 
       {
-        favourites.small.map((f) => (
-          <article class="fav">
-            <div class="fav__media">
-              <Figure {...imgFor[f.img]} ratio="16 / 11" />
+        leakResponse.steps.map((s, i) => (
+          <article class="step">
+            <div class="step__media">
+              <Figure {...imgFor[s.img]} ratio="16 / 11" />
             </div>
-            <div class="fav__text">
-              <h3>{f.title}</h3>
-              <p>{f.body}</p>
+            <div class="step__text">
+              <h3>
+                <span class="step__num">{i + 1}</span>
+                {s.title}
+              </h3>
+              <p>{s.body}</p>
             </div>
           </article>
         ))
@@ -49,7 +49,7 @@ const imgFor = {
     <ul class="quotes">
       {
         reviews.map((r) => (
-          <li class="quote">
+          <li class:list={["quote", { "quote--ph": r.placeholder }]}>
             <p>“{r.quote}”</p>
             <cite>
               {r.name}
@@ -63,17 +63,21 @@ const imgFor = {
 </section>
 
 <style>
-  .favourites__lede {
+  .leak__lede {
     color: var(--on-frame-muted);
   }
 
-  .favourites__grid {
+  .section-head h2 {
+    color: var(--on-frame);
+  }
+
+  .leak__grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: clamp(1.25rem, 3vw, 2rem);
   }
 
-  .fav {
+  .step {
     display: flex;
     flex-direction: column;
     background: oklch(1 0 0 / 0.04);
@@ -82,44 +86,63 @@ const imgFor = {
     overflow: hidden;
   }
 
-  .fav--feature {
+  .step--feature {
     grid-row: span 2;
+    border-color: var(--primary);
   }
 
-  .fav__media {
+  .step__media {
     aspect-ratio: 16 / 11;
     overflow: hidden;
   }
 
-  .fav--feature .fav__media {
+  .step--feature .step__media {
     aspect-ratio: 4 / 3;
   }
 
-  .fav__media > :global(*) {
+  .step__media > :global(*) {
     width: 100%;
     height: 100%;
     transition: transform var(--dur-mid) var(--ease-out);
   }
 
-  .fav:hover .fav__media > :global(*) {
+  .step:hover .step__media > :global(*) {
     transform: scale(1.03);
   }
 
-  .fav__text {
+  .step__text {
     padding: clamp(1.1rem, 2.5vw, 1.6rem);
   }
 
-  .fav__text h3 {
+  .step__text h3 {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
     color: var(--on-frame);
     font-size: var(--fs-h3);
     font-weight: 700;
   }
 
-  .fav--feature .fav__text h3 {
+  .step--feature .step__text h3 {
     font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--primary);
   }
 
-  .fav__text p {
+  .step__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--on-primary);
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  .step__text p {
     margin-top: var(--s-3);
     color: var(--on-frame-muted);
     font-size: 0.95rem;
@@ -141,6 +164,18 @@ const imgFor = {
     text-wrap: pretty;
   }
 
+  /* Sample testimonials are visibly struck as samples so nobody mistakes them
+     for real reviews during a pitch. See the note in data/site.ts. */
+  .quote--ph {
+    border-left: 2px dashed var(--hairline-frame);
+    padding-left: var(--s-4);
+  }
+
+  .quote--ph p {
+    color: var(--on-frame-muted);
+    font-style: italic;
+  }
+
   .quote cite {
     display: block;
     margin-top: var(--s-4);
@@ -159,16 +194,16 @@ const imgFor = {
   }
 
   @media (max-width: 720px) {
-    .favourites__grid {
+    .leak__grid {
       grid-template-columns: 1fr;
     }
-    .fav--feature {
+    .step--feature {
       grid-row: auto;
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .fav:hover .fav__media > :global(*) {
+    .step:hover .step__media > :global(*) {
       transform: none;
     }
   }
