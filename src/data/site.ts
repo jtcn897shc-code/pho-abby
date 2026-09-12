@@ -249,7 +249,7 @@ export const socials = [
 
 export const site = {
   // TEMPLATE: GitHub Pages project URL. Set to the real domain at launch.
-  url: "https://jtcn897shc-code.github.io/pho-abby",
+  url: "https://jtcn897shc-code.github.io/savanna.roofing",
   tagline: "Roof leak repair across Metro Vancouver",
   description:
     "Savanna Roofing Ltd. — roof-leak detection, emergency water containment and dependable repair for flat and asphalt-shingle roofs. Residential and commercial, serving Vancouver, Burnaby, Richmond, Delta, Surrey and Coquitlam.",

@@ -6,5 +6,5 @@ import { defineConfig } from "astro/config";
 // remove the noindex meta in Base.astro. Static output; no adapter needed.
 export default defineConfig({
   site: "https://jtcn897shc-code.github.io",
-  base: "/pho-abby",
+  base: "/savanna.roofing",
 });
