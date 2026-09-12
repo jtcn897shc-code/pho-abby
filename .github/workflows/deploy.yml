@@ -1,0 +1,36 @@
+name: Deploy to GitHub Pages
+
+# The previous process for updating the live site was a manual local build
+# pushed straight to gh-pages ("deploy v5: night edition", etc.) — nothing
+# reran it when a PR merged into main, which is why the roofing rebuild sat
+# merged for a while with the old restaurant site still live. This workflow
+# replaces that manual step: every push to main rebuilds and republishes.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - run: npm ci
+      - run: npm run build
+
+      - uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist
