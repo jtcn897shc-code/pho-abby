@@ -1,0 +1,168 @@
+---
+import { services } from "../data/site";
+---
+
+<section class="section services" id="services">
+  <div class="shell">
+    <div class="section-head">
+      <h2>What we do</h2>
+      <p>
+        Flat roofs and asphalt shingle, residential and commercial. Grouped by
+        what's wrong with your roof, not by trade category.
+      </p>
+    </div>
+
+    <div class="services__grid">
+      {
+        services.map((group, i) => (
+          <div class:list={["svc", { "svc--urgent": i === 0 }]}>
+            <h3>
+              {group.name}
+              {group.placeholder && <span class="svc__sample">sample</span>}
+            </h3>
+            {group.note && <p class="svc__note">{group.note}</p>}
+            <ul class="svc__rows">
+              {group.items.map((item) => (
+                <li class="svc__row">
+                  <span class="svc__name">
+                    {item.name}
+                    {item.tag && <span class="pill">{item.tag}</span>}
+                  </span>
+                  {item.note && <span class="svc__desc">{item.note}</span>}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <p class="services__disclaimer">
+      Template build — the emergency-response scope is Savanna's own; the
+      remaining groups are a realistic sample pending confirmation of exactly
+      which systems and brands they carry.
+    </p>
+  </div>
+</section>
+
+<style>
+  .services__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: clamp(2rem, 5vw, 3rem) clamp(2.5rem, 6vw, 4rem);
+  }
+
+  /* The emergency group is the highest-intent block on the page, so it gets
+     width and a gold field instead of sitting as one column among five. */
+  .svc--urgent {
+    grid-column: 1 / -1;
+    background: var(--primary);
+    color: var(--on-primary);
+    border-radius: var(--radius);
+    padding: clamp(1.5rem, 4vw, 2.25rem);
+  }
+
+  .svc h3 {
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    font-size: var(--fs-h3);
+    font-weight: 700;
+    color: var(--ink);
+    padding-bottom: var(--s-3);
+    border-bottom: 2px solid var(--primary);
+  }
+
+  .svc--urgent h3 {
+    color: var(--on-primary);
+    border-bottom-color: oklch(0.2 0.01 60 / 0.35);
+    font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+  }
+
+  .svc__sample {
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-pill);
+    padding: 0.1rem 0.5rem;
+  }
+
+  .svc__note {
+    margin-top: var(--s-3);
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .svc--urgent .svc__note {
+    color: oklch(0.2 0.01 60 / 0.78);
+    font-weight: 500;
+  }
+
+  .svc__rows {
+    list-style: none;
+    padding: 0;
+    margin-top: var(--s-4);
+  }
+
+  .svc--urgent .svc__rows {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 0 clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .svc__row {
+    padding: 0.6rem 0;
+    border-top: 1px dotted var(--hairline);
+  }
+
+  .svc--urgent .svc__row {
+    border-top-color: oklch(0.2 0.01 60 / 0.25);
+  }
+
+  .svc__row:first-child {
+    border-top: 0;
+  }
+
+  .svc__name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.35rem 0.6rem;
+    font-weight: 600;
+  }
+
+  .svc__desc {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: var(--muted);
+  }
+
+  .svc--urgent .svc__desc {
+    color: oklch(0.2 0.01 60 / 0.75);
+  }
+
+  /* The accent-tint pill is invisible on the gold field — invert it there. */
+  .svc--urgent .pill {
+    background: oklch(0.2 0.01 60 / 0.88);
+    color: var(--primary);
+  }
+
+  .services__disclaimer {
+    margin-top: var(--s-12);
+    font-size: 0.82rem;
+    color: var(--muted);
+    max-width: 62ch;
+  }
+
+  @media (max-width: 620px) {
+    .services__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

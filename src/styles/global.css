@@ -1,4 +1,4 @@
-/* Pho Abby — reset + base + shared primitives */
+/* Savanna Roofing — reset + base + shared primitives */
 @import "@fontsource-variable/schibsted-grotesk";
 @import "./tokens.css";
 
@@ -79,10 +79,23 @@ a {
   margin-bottom: var(--s-12);
 }
 
+/* Headings are charcoal, not gold — the brand gold fails contrast as text on
+   white. The accent comes from a short gold rule above the heading, which is
+   how the logo uses it too. */
 .section-head h2 {
   font-size: var(--fs-h2);
   font-weight: 800;
-  color: var(--primary);
+  color: var(--ink);
+}
+
+.section-head h2::before {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 4px;
+  border-radius: 2px;
+  background: var(--primary);
+  margin-bottom: var(--s-4);
 }
 
 .section-head p {
@@ -107,7 +120,7 @@ a {
   gap: 0.5rem;
   padding: 0.75rem 1.4rem;
   min-height: 44px;
-  border-radius: var(--radius-pill);
+  border-radius: var(--radius-btn);
   border: 1px solid transparent;
   font: inherit;
   font-weight: 600;
@@ -130,13 +143,13 @@ a {
 
 .btn {
   background: var(--primary);
-  color: #fff;
+  color: var(--on-primary);
 }
 
 .btn:hover {
   background: var(--primary-deep);
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px oklch(0.475 0.115 52 / 0.35);
+  box-shadow: 0 6px 20px oklch(0.78 0.135 85 / 0.4);
 }
 
 .btn--ghost {
@@ -150,12 +163,15 @@ a {
   color: var(--bg);
 }
 
+/* On the charcoal frames the gold button is the loudest thing on the page —
+   which is what the emergency CTA should be. */
 .btn--on-frame {
-  background: #fff;
-  color: var(--primary);
+  background: var(--primary);
+  color: var(--on-primary);
 }
 
 .btn--on-frame:hover {
+  background: var(--primary-deep);
   transform: translateY(-1px);
   box-shadow: var(--shadow-lg);
 }

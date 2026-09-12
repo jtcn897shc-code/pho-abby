@@ -1,11 +1,15 @@
 ---
 import { contact } from "../data/site";
+import { logos } from "../data/images";
+
+const mark = logos.mark;
+const markRev = logos.markReversed;
 
 const links = [
-  { href: "#menu", label: "Menu" },
-  { href: "#favourites", label: "Favourites" },
+  { href: "#services", label: "Services" },
+  { href: "#leak-response", label: "Leak response" },
   { href: "#about", label: "About" },
-  { href: "#visit", label: "Visit" },
+  { href: "#quote", label: "Get a quote" },
 ];
 ---
 
@@ -13,19 +17,15 @@ const links = [
 <header class="nav" data-nav>
   <div class="shell nav__row">
     <a class="nav__brand" href="#top">
-      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
-        <path d="M5 14h22a11 11 0 0 1-22 0Z" fill="currentColor" />
-        <rect x="3" y="21.5" width="26" height="2.4" rx="1.2" fill="currentColor" />
-        <path
-          d="M12 7.5c1.6 1.2 1.6 2.6 0 3.8M16 6c1.8 1.4 1.8 3 0 4.4M20 7.5c1.6 1.2 1.6 2.6 0 3.8"
-          fill="none"
-          stroke="currentColor"
-          stroke-width="1.6"
-          stroke-linecap="round"
-          opacity="0.7"
-        />
-      </svg>
-      {contact.name}
+      <!-- The mark carries two variants: the artwork's charcoal disappears on
+           the dark hero, so the reversed one shows there and the original takes
+           over once the nav solidifies. The wordmark stays live text — a raster
+           wordmark at this size would be mush. -->
+      <span class="nav__logo" aria-hidden="true">
+        <img class="nav__logo-img nav__logo-img--rev" src={markRev} alt="" width="320" height="187" />
+        <img class="nav__logo-img nav__logo-img--std" src={mark} alt="" width="320" height="187" />
+      </span>
+      {contact.shortName}
     </a>
 
     <nav class="nav__links" aria-label="Sections">
@@ -49,6 +49,10 @@ const links = [
   .nav {
     position: sticky;
     top: 0;
+    /* Pull the hero up underneath the nav so the transparent state sits over
+       the dark hero instead of over the white page background — without this,
+       the light nav text renders white-on-white until the first scroll. */
+    margin-bottom: -4.25rem;
     z-index: var(--z-nav);
     transition: background-color var(--dur-mid) var(--ease-out),
       box-shadow var(--dur-mid) var(--ease-out),
@@ -63,10 +67,41 @@ const links = [
     height: 4.25rem;
   }
 
+  .nav__logo {
+    position: relative;
+    display: block;
+    /* The emblem is detail-dense (giraffe, acacia, roofline); below ~36px it
+       collapses into a coloured blob. */
+    height: 38px;
+    aspect-ratio: 320 / 187;
+    flex: 0 0 auto;
+  }
+
+  .nav__logo-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity var(--dur-mid) var(--ease-out);
+  }
+
+  .nav__logo-img--std {
+    opacity: 0;
+  }
+
+  .nav.is-solid .nav__logo-img--rev {
+    opacity: 0;
+  }
+
+  .nav.is-solid .nav__logo-img--std {
+    opacity: 1;
+  }
+
   .nav__brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.55rem;
     font-weight: 900;
     font-size: 1.05rem;
     letter-spacing: -0.02em;
@@ -119,7 +154,7 @@ const links = [
   .nav__phone:hover {
     background: var(--primary);
     border-color: var(--primary);
-    color: #fff;
+    color: var(--on-primary);
     transform: translateY(-1px);
   }
 
@@ -141,13 +176,14 @@ const links = [
   }
 
   .nav.is-solid .nav__phone {
-    border-color: var(--primary);
-    color: var(--primary);
+    border-color: var(--primary-text);
+    color: var(--primary-text);
   }
 
   .nav.is-solid .nav__phone:hover {
     background: var(--primary);
-    color: #fff;
+    border-color: var(--primary);
+    color: var(--on-primary);
   }
 
   @media (max-width: 760px) {

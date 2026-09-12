@@ -1,43 +1,46 @@
-# Astro Starter Kit: Minimal
+# Savanna Roofing Ltd. — one-page site
 
-```sh
-npm create astro@latest -- --template minimal
-```
+Astro static one-pager for a Metro Vancouver roofing company. Built from the
+Destura one-pager playbook.
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+> ⚠ **Template build — do not publish as-is.** The phone number is a reserved
+> fictional number, the testimonials are flagged samples, and most credentials
+> are placeholder. `noindex` is set. Work through `DISCOVERY.md` before launch.
 
-## 🚀 Project Structure
+## Where things live
 
-Inside of your Astro project, you'll see the following folders and files:
+| File | What it holds |
+|---|---|
+| `src/data/site.ts` | **All copy and business facts.** Edit here, never in components. |
+| `src/data/images.ts` | Every image on the site. Set `src` to swap a placeholder for a real photo. |
+| `src/styles/tokens.css` | Design tokens (OKLCH). Read the contrast rule at the top before changing a colour. |
+| `DESIGN.md` | The visual contract — palette roles, type scale, component rules. |
+| `PRODUCT.md` | Who this is for, the argument the site makes, anti-references. |
+| `DISCOVERY.md` | Confirmed facts vs. open questions for the client. |
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+Sections are one component each in `src/components/`, composed in
+`src/pages/index.astro`.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Commands
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+| Command | Action |
+|---|---|
+| `npm install` | Install dependencies |
+| `npx astro dev --background` | Start the dev server on `localhost:4321` |
+| `npx astro dev stop` / `status` / `logs` | Manage the background dev server |
+| `npm run build` | Build to `./dist/` |
+| `npm run preview` | Preview the build locally |
 
-Any static assets, like images, can be placed in the `public/` directory.
+The site is served under a base path (`/pho-abby`) for the GitHub Pages preview,
+so the local URL is `http://localhost:4321/pho-abby/`.
 
-## 🧞 Commands
+## Before launch
 
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+1. Replace every `TODO:` in `src/data/site.ts` — the fictional phone number
+   first.
+2. Replace or delete the sample testimonials.
+3. Wire `quoteIntake.endpoint` to a form service that accepts photo uploads, or
+   leave the checklist + Messenger fallback.
+4. Drop real photos into `src/data/images.ts`.
+5. Set `site.url` to the real domain, delete `base` in `astro.config.mjs`,
+   rename the repo, and remove the `noindex` meta in `src/layouts/Base.astro`.

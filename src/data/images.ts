@@ -1,58 +1,99 @@
 /**
  * Every image on the site, in one place.
  *
- * PITCH BUILD: no photos wired yet. Each entry renders as an on-brand styled
- * placeholder (see components/Figure.astro). To drop in a real photo — the
- * client's own, AI-generated, or licensed stock — set `src` to the URL/import
- * and rewrite `alt` to describe that photo. Nothing else changes.
+ * Entries with no `src` render as an on-brand styled placeholder (see
+ * components/Figure.astro). To drop in a real photo, set `src` and rewrite
+ * `alt` to describe that photo. Nothing else changes.
  *
- * The client already has real photos of: the dining room, and the grilled-pork
- * plate. Those two should go in first.
+ * WHAT IS REAL RIGHT NOW: three crops of ONE genuine Savanna job photo — the
+ * ridge shot supplied by the client. No stock, no generated imagery: every
+ * external image source is blocked from the build environment, and for a
+ * roofing company a real job beats a stock roof anyway. A homeowner in Burnaby
+ * recognising their own street is the whole point.
+ *
+ * TODO: get the remaining 19+ job photos at ORIGINAL resolution. The one in use
+ * came from a 1260x2736 phone screenshot; usable area after cropping the app
+ * chrome is 1260x1680, so the hero is being upscaled ~14% on desktop. It holds
+ * up, but a real file would be sharper.
+ *
+ * ⚠ STRIP EXIF BEFORE PUBLISHING any original camera files. Phone photos of a
+ * job carry GPS — publishing a past customer's home coordinates is not
+ * acceptable. (Screenshots don't carry it; originals will.)
  */
-export type Figure = { src?: string; alt: string; label: string; kind: "food" | "room" };
+export type Figure = { src?: string; alt: string; label: string; kind: "roof" | "crew" | "damage" };
+
+/** Resolve a file in public/img against the configured base path. */
+const asset = (file: string) =>
+  `${import.meta.env.BASE_URL}/img/${file}`.replace(/\/{2,}/g, "/");
+
+/**
+ * Logo assets, extracted from the client's supplied artwork.
+ *
+ * The cream card background was keyed to transparency so the logo sits on any
+ * surface. `*Reversed` are derived knockout variants with the charcoal remapped
+ * to cream: the original's charcoal elements are invisible against the charcoal
+ * frame and the dark hero, so dark grounds need them.
+ *
+ * TODO: get the official vector (SVG/AI/EPS) and, if the designer made one, the
+ * official reversed variant. These are traced off a screenshot of a raster
+ * upload — good enough at the sizes used here, but they will not survive being
+ * scaled up for signage, vehicle livery or print.
+ */
+export const logos = {
+  mark: asset("logo-mark.webp"),
+  markReversed: asset("logo-mark-rev.webp"),
+  lockup: asset("logo-lockup.webp"),
+  lockupReversed: asset("logo-lockup-rev.webp"),
+};
 
 export const images: Record<string, Figure> = {
   hero: {
-    src: undefined, // TODO: hero — a bowl of Phở Abby, shot close, warm, steam rising
-    alt: "A bowl of Vietnamese phở with rice noodles, beef and fresh herbs.",
-    label: "Phở Abby",
-    kind: "food",
+    src: asset("hero-ridge.webp"), // real Savanna job photo
+    alt: "View along the ridge of a newly installed charcoal asphalt shingle roof, looking out over a Metro Vancouver neighbourhood with evergreen hillside beyond.",
+    label: "Finished re-roof",
+    kind: "roof",
   },
-  phoBowl: {
-    src: undefined, // TODO: House Phở — rare beef, brisket, meatball
-    alt: "Phở broth with brisket, rare beef and spring onion.",
-    label: "House phở",
-    kind: "food",
+  leakResponse: {
+    src: undefined, // TODO: a wet-weather job — tarping, or a roof mid-rain
+    alt: "A roof being tarped in wet weather to contain an active leak.",
+    label: "Emergency containment",
+    kind: "damage",
   },
-  grilledPork: {
-    src: undefined, // TODO: use the client's real grilled-pork-and-rice photo
-    alt: "Grilled lemongrass pork over rice with pickled vegetables and dipping sauce.",
-    label: "Grilled lemongrass pork",
-    kind: "food",
+  inspection: {
+    src: undefined, // TODO: close-up of a failed detail — flashing, valley, penetration
+    alt: "Close inspection of failed flashing where a roof leak begins.",
+    label: "Leak detection",
+    kind: "damage",
   },
-  starterChicken: {
-    src: undefined, // TODO: salt & lime-leaf fried chicken
-    alt: "Crispy fried chicken with herbs and chilli.",
-    label: "Salt & lime-leaf chicken",
-    kind: "food",
+  flatRoof: {
+    src: undefined, // TODO: a flat/low-slope membrane roof, ideally commercial
+    alt: "A low-slope torch-on membrane roof with clean seams and drains.",
+    label: "Flat roof system",
+    kind: "roof",
   },
-  interior: {
-    src: undefined, // TODO: use the client's real dining-room photo
-    alt: "The Pho Abby dining room — wooden tables by a large street-facing window.",
-    label: "The dining room",
-    kind: "room",
+  crew: {
+    src: undefined, // TODO: the crew on a roof, harnessed — doubles as the trust/safety photo
+    alt: "The Savanna Roofing crew working on a pitched roof in safety harnesses.",
+    label: "On site",
+    kind: "crew",
   },
-  herbs: {
-    src: undefined, // TODO: the herb plate that comes with the phở
-    alt: "Thai basil, bean sprouts, lime and chilli served alongside phở.",
-    label: "The herb plate",
-    kind: "food",
+  workA: {
+    src: asset("roof-context.webp"), // real Savanna job photo (same roof, neighbourhood band)
+    alt: "A completed residential roof replacement seen against the surrounding street and evergreen hillside.",
+    label: "Residential re-roof",
+    kind: "roof",
   },
-  saladRolls: {
-    src: undefined, // TODO: fresh salad rolls
-    alt: "Fresh Vietnamese salad rolls, halved, with dipping sauce.",
-    label: "Fresh salad rolls",
-    kind: "food",
+  workB: {
+    src: asset("shingle-detail.webp"), // real Savanna job photo (same roof, foreground crop)
+    alt: "Close view of architectural asphalt shingles laid in even courses, with ridge and valley flashing.",
+    label: "Shingle and flashing detail",
+    kind: "roof",
+  },
+  workC: {
+    src: undefined, // TODO: gallery — detail work: valley, skylight or chimney saddle
+    alt: "New valley flashing installed between two roof planes.",
+    label: "Valley flashing",
+    kind: "damage",
   },
 };
 

@@ -1,0 +1,210 @@
+---
+import { leakResponse, reviews } from "../data/site";
+import { images } from "../data/images";
+import Figure from "./Figure.astro";
+
+const imgFor = {
+  leakResponse: images.leakResponse,
+  inspection: images.inspection,
+  flatRoof: images.flatRoof,
+} as const;
+---
+
+<section class="section frame leak" id="leak-response">
+  <div class="shell">
+    <div class="section-head">
+      <h2>When the water's already in</h2>
+      <p class="leak__lede">{leakResponse.lede}</p>
+    </div>
+
+    <div class="leak__grid">
+      <article class="step step--feature">
+        <div class="step__media">
+          <Figure {...imgFor[leakResponse.feature.img]} ratio="4 / 3" />
+        </div>
+        <div class="step__text">
+          <h3>{leakResponse.feature.title}</h3>
+          <p>{leakResponse.feature.body}</p>
+        </div>
+      </article>
+
+      {
+        leakResponse.steps.map((s, i) => (
+          <article class="step">
+            <div class="step__media">
+              <Figure {...imgFor[s.img]} ratio="16 / 11" />
+            </div>
+            <div class="step__text">
+              <h3>
+                <span class="step__num">{i + 1}</span>
+                {s.title}
+              </h3>
+              <p>{s.body}</p>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <ul class="quotes">
+      {
+        reviews.map((r) => (
+          <li class:list={["quote", { "quote--ph": r.placeholder }]}>
+            <p>“{r.quote}”</p>
+            <cite>
+              {r.name}
+              <span>{r.source}</span>
+            </cite>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .leak__lede {
+    color: var(--on-frame-muted);
+  }
+
+  .section-head h2 {
+    color: var(--on-frame);
+  }
+
+  .leak__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: clamp(1.25rem, 3vw, 2rem);
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+    background: oklch(1 0 0 / 0.04);
+    border: 1px solid var(--hairline-frame);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .step--feature {
+    grid-row: span 2;
+    border-color: var(--primary);
+  }
+
+  .step__media {
+    aspect-ratio: 16 / 11;
+    overflow: hidden;
+  }
+
+  .step--feature .step__media {
+    aspect-ratio: 4 / 3;
+  }
+
+  .step__media > :global(*) {
+    width: 100%;
+    height: 100%;
+    transition: transform var(--dur-mid) var(--ease-out);
+  }
+
+  .step:hover .step__media > :global(*) {
+    transform: scale(1.03);
+  }
+
+  .step__text {
+    padding: clamp(1.1rem, 2.5vw, 1.6rem);
+  }
+
+  .step__text h3 {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+    color: var(--on-frame);
+    font-size: var(--fs-h3);
+    font-weight: 700;
+  }
+
+  .step--feature .step__text h3 {
+    font-size: clamp(1.5rem, 3vw, 2rem);
+    color: var(--primary);
+  }
+
+  .step__num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    width: 1.6rem;
+    height: 1.6rem;
+    border-radius: 50%;
+    background: var(--primary);
+    color: var(--on-primary);
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  .step__text p {
+    margin-top: var(--s-3);
+    color: var(--on-frame-muted);
+    font-size: 0.95rem;
+  }
+
+  .quotes {
+    list-style: none;
+    padding: 0;
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: clamp(1.5rem, 4vw, 2.5rem);
+  }
+
+  .quote p {
+    color: var(--on-frame);
+    font-size: 1.05rem;
+    line-height: 1.5;
+    text-wrap: pretty;
+  }
+
+  /* Sample testimonials are visibly struck as samples so nobody mistakes them
+     for real reviews during a pitch. See the note in data/site.ts. */
+  .quote--ph {
+    border-left: 2px dashed var(--hairline-frame);
+    padding-left: var(--s-4);
+  }
+
+  .quote--ph p {
+    color: var(--on-frame-muted);
+    font-style: italic;
+  }
+
+  .quote cite {
+    display: block;
+    margin-top: var(--s-4);
+    font-style: normal;
+    font-weight: 700;
+    font-size: 0.9rem;
+    color: var(--on-frame);
+  }
+
+  .quote cite span {
+    display: block;
+    font-weight: 500;
+    font-size: 0.78rem;
+    color: var(--on-frame-muted);
+    margin-top: 0.1rem;
+  }
+
+  @media (max-width: 720px) {
+    .leak__grid {
+      grid-template-columns: 1fr;
+    }
+    .step--feature {
+      grid-row: auto;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .step:hover .step__media > :global(*) {
+      transform: none;
+    }
+  }
+</style>

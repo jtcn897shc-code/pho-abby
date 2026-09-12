@@ -1,6 +1,6 @@
 ---
 import "../styles/global.css";
-import { contact, hours, site } from "../data/site";
+import { contact, hours, serviceArea, site } from "../data/site";
 
 interface Props {
   title?: string;
@@ -8,7 +8,8 @@ interface Props {
 const { title } = Astro.props;
 const pageTitle = title ?? `${contact.name} — ${site.tagline}`;
 const canonical = site.url; // single-page site
-const favicon = `${import.meta.env.BASE_URL}/favicon.svg`.replace(/\/{2,}/g, "/");
+const favicon = `${import.meta.env.BASE_URL}/favicon-180.png`.replace(/\/{2,}/g, "/");
+const appleIcon = `${import.meta.env.BASE_URL}/favicon-512.png`.replace(/\/{2,}/g, "/");
 
 const dayMap: Record<string, string> = {
   Monday: "Mo", Tuesday: "Tu", Wednesday: "We", Thursday: "Th",
@@ -16,27 +17,38 @@ const dayMap: Record<string, string> = {
 };
 const openingHours = hours.map((h) => `${dayMap[h.day]} ${h.open}-${h.close}`);
 
-// Restaurant schema. NOTE: no aggregateRating — the 4.6/435 is Google/DoorDash
-// (third-party); showing it in JSON-LD off a first party you don't own can draw
-// a Google penalty. It appears visually in the page only.
+// RoofingContractor schema (a LocalBusiness subtype). areaServed carries the
+// six municipalities — for a trade with no storefront, that does the work a
+// street address does for a restaurant.
+//
+// NOTE: no aggregateRating. Never emit one until there are real, first-party
+// reviews to back it; a made-up rating in JSON-LD is a manual-action risk.
+//
+// TODO: once a real street address is confirmed, add PostalAddress + geo. It
+// is deliberately omitted rather than emitted empty — an empty streetAddress is
+// worse than no address at all.
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "Restaurant",
+  "@type": "RoofingContractor",
   name: contact.name,
-  servesCuisine: "Vietnamese",
-  priceRange: "$$",
+  description: site.description,
+  slogan: site.promise,
   telephone: contact.phoneTel,
+  email: contact.email,
   url: site.url,
+  areaServed: serviceArea.cities.map((city) => ({
+    "@type": "City",
+    name: city,
+    containedInPlace: { "@type": "AdministrativeArea", name: "British Columbia" },
+  })),
   address: {
     "@type": "PostalAddress",
-    streetAddress: contact.street,
     addressLocality: contact.city,
     addressRegion: contact.region,
-    postalCode: contact.postal,
     addressCountry: "CA",
   },
   openingHours,
-  acceptsReservations: "False",
+  sameAs: [contact.messenger],
 };
 ---
 
@@ -45,28 +57,31 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href={favicon} />
+    <!-- The mark on its cream ground — a transparent favicon would lose the
+         charcoal against a dark browser chrome. -->
+    <link rel="icon" type="image/png" sizes="180x180" href={favicon} />
+    <link rel="apple-touch-icon" href={appleIcon} />
 
-    <!-- PREVIEW ONLY — remove at launch (Phase 11). This is a pitch copy of the
-         restaurant's site and must not be crawled. -->
+    <!-- TEMPLATE ONLY — remove at launch. This build still contains a fictional
+         phone number and sample testimonials; it must not be crawled. -->
     <meta name="robots" content="noindex, nofollow" />
 
     <title>{pageTitle}</title>
     <meta name="description" content={site.description} />
     <link rel="canonical" href={canonical} />
 
-    <meta property="og:type" content="restaurant" />
+    <meta property="og:type" content="website" />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={site.description} />
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="en_CA" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="theme-color" content="#7a3e1d" />
+    <meta name="theme-color" content="#2e2a26" />
 
     <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
-    <a class="skip" href="#menu">Skip to the menu</a>
+    <a class="skip" href="#quote">Skip to getting a quote</a>
     <slot />
   </body>
 </html>
