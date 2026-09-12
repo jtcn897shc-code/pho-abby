@@ -31,8 +31,8 @@ Sections are one component each in `src/components/`, composed in
 | `npm run build` | Build to `./dist/` |
 | `npm run preview` | Preview the build locally |
 
-The site is served under a base path (`/pho-abby`) for the GitHub Pages preview,
-so the local URL is `http://localhost:4321/pho-abby/`.
+The site is served under a base path (`/savanna.roofing`) for the GitHub Pages
+preview, so the local URL is `http://localhost:4321/savanna.roofing/`.
 
 ## Before launch
 
