@@ -64,13 +64,20 @@ memorable asset the business has.
 ## Design Principles
 
 1. **The emergency path is the product.** A visitor with an active leak must
-   reach a phone number within one thumb-reach, from any scroll position.
-2. **Gold is a fill, never text.** The brand gold is bright; it carries charcoal
-   text on it and never sits as text on white. See `DESIGN.md` §2.
-3. **One page, a clear beat.** White editorial sections alternate with one gold
-   strip, one gold emergency block and two charcoal frames.
-4. **One motion signature: drizzle** over the hero — the problem, falling.
-   Visible by default, removed entirely under `prefers-reduced-motion`.
+   reach a phone number within one thumb-reach, from any scroll position — and
+   the hero CTA must clear the fold on a laptop, which is what caps the display
+   type size.
+2. **Dark ground, so the gold can speak.** On white the brand gold fails as
+   text (2.3:1) and can only ever be a fill; on the near-black ground it hits
+   6.5:1 and carries headlines, numerals and CTAs. Charcoal text on gold fills,
+   never white. See `DESIGN.md` §1–2.
+3. **One page, a clear beat.** Dark sections with two cream breaks, one gold
+   slab, and giant outlined wordmarks drifting behind.
+4. **Motion is the delight budget, spent once.** A visitor sees this page once
+   or twice, so entrances can be expressive — a 3D hero scene, hinge-up
+   headlines, staggered reveals. They never delay interaction, never gate
+   content, and all of it goes away under `prefers-reduced-motion`. Nothing is
+   hidden unless JS is confirmed running.
 5. **Honest content.** Confirmed facts only in prose. Everything invented is a
    visible `TODO` in code and, where it is user-facing, a visible "sample" badge
    on the page. Never a silent guess.

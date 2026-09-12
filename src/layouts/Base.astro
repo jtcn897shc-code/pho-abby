@@ -57,6 +57,14 @@ const jsonLd = {
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <!-- Sets the gate that lets motion.css hide reveal targets. It has to run
+         before first paint and before the deferred module: if it waited, every
+         revealing element would paint visible and then snap hidden. The
+         corollary is that a JS failure leaves the whole page visible. -->
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
     <!-- The mark on its cream ground — a transparent favicon would lose the
          charcoal against a dark browser chrome. -->
     <link rel="icon" type="image/png" sizes="180x180" href={favicon} />
@@ -76,12 +84,16 @@ const jsonLd = {
     <meta property="og:url" content={canonical} />
     <meta property="og:locale" content="en_CA" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="theme-color" content="#2e2a26" />
+    <meta name="theme-color" content="#1a1815" />
 
     <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
   </head>
   <body>
     <a class="skip" href="#quote">Skip to getting a quote</a>
+    <div class="scroll-progress" aria-hidden="true"></div>
     <slot />
+    <script>
+      import "../scripts/motion.ts";
+    </script>
   </body>
 </html>

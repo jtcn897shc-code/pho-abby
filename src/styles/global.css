@@ -1,6 +1,8 @@
 /* Savanna Roofing — reset + base + shared primitives */
+@import "@fontsource-variable/archivo/wdth.css";
 @import "@fontsource-variable/schibsted-grotesk";
 @import "./tokens.css";
+@import "./motion.css";
 
 *,
 *::before,
@@ -12,7 +14,8 @@
 html {
   -webkit-text-size-adjust: 100%;
   scroll-behavior: smooth;
-  scroll-padding-top: 5rem; /* sticky nav offset for anchors */
+  scroll-padding-top: 5rem;
+  background: var(--void);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -23,14 +26,15 @@ html {
 
 body {
   margin: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: var(--font);
+  background: var(--void);
+  color: var(--on-void);
+  font-family: var(--font-body);
   font-size: var(--fs-body);
   line-height: 1.6;
   font-synthesis: none;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
 }
 
 img,
@@ -40,26 +44,66 @@ svg {
   max-width: 100%;
 }
 
-h1,
-h2,
-h3 {
-  line-height: 1.08;
-  text-wrap: balance;
-  letter-spacing: -0.02em;
-}
-
-p {
-  text-wrap: pretty;
-}
-
 a {
   color: inherit;
 }
 
-:where(a, button, input, [tabindex]):focus-visible {
-  outline: 2px solid var(--primary-bright);
-  outline-offset: 2px;
-  border-radius: 3px;
+:where(a, button, input, textarea, [tabindex]):focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* ---- display type ----
+   The condensed poster face. Used at three scales and two finishes: solid,
+   and outlined for the second line of a pair. The outline is what keeps a
+   six-word headline from turning into a wall of ink at 11rem. */
+.display {
+  font-family: var(--font);
+  font-variation-settings: var(--display-axes);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.86;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.display--ghost {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--on-void);
+}
+
+.display--ghost-gold {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--gold);
+}
+
+@media (max-width: 620px) {
+  .display--ghost,
+  .display--ghost-gold {
+    -webkit-text-stroke-width: 1px;
+  }
+}
+
+.mega {
+  font-size: var(--fs-mega);
+}
+
+.h2 {
+  font-size: var(--fs-h2);
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+p {
+  text-wrap: pretty;
 }
 
 /* ---- layout primitives ---- */
@@ -71,157 +115,189 @@ a {
 }
 
 .section {
+  position: relative;
   padding-block: var(--section-y);
+  overflow: clip; /* contains the drifting ghost wordmark */
 }
 
-.section-head {
-  max-width: 46rem;
-  margin-bottom: var(--s-12);
+.section--cream {
+  background: var(--cream);
+  color: var(--on-cream);
 }
 
-/* Headings are charcoal, not gold — the brand gold fails contrast as text on
-   white. The accent comes from a short gold rule above the heading, which is
-   how the logo uses it too. */
-.section-head h2 {
-  font-size: var(--fs-h2);
-  font-weight: 800;
-  color: var(--ink);
+.section--void {
+  background: var(--void);
+  color: var(--on-void);
 }
 
-.section-head h2::before {
+.section__inner {
+  position: relative;
+  z-index: 1;
+}
+
+/* Numbered section label. The reference build's one borrowed mannerism, and
+   it earns its place here: five services in a deliberate order, where the
+   first one is the emergency. */
+.eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font);
+  font-variation-settings: "wdth" 88, "wght" 700;
+  font-size: var(--fs-micro);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: var(--s-6);
+}
+
+.eyebrow::before {
   content: "";
-  display: block;
-  width: 2.5rem;
-  height: 4px;
-  border-radius: 2px;
-  background: var(--primary);
-  margin-bottom: var(--s-4);
+  width: 2rem;
+  height: 1px;
+  background: currentColor;
+  flex: 0 0 auto;
 }
 
-.section-head p {
-  margin-top: var(--s-4);
+.section--cream .eyebrow {
+  color: var(--gold-ink);
+}
+
+.lede {
   font-size: var(--fs-lead);
-  color: var(--muted);
-  max-width: 60ch;
+  color: var(--on-void-dim);
+  max-width: 46ch;
 }
 
-.prose {
-  max-width: 66ch;
+.section--cream .lede {
+  color: var(--on-cream-dim);
 }
 
 /* ---- buttons ---- */
 .btn,
-.btn--ghost,
-.btn--on-frame,
-.btn--ghost-on-frame {
+.btn--ghost {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1.4rem;
-  min-height: 44px;
-  border-radius: var(--radius-btn);
+  gap: 0.6rem;
+  padding: 0.95rem 1.6rem;
+  min-height: 48px;
+  border-radius: var(--radius);
   border: 1px solid transparent;
-  font: inherit;
-  font-weight: 600;
-  font-size: 0.95rem;
+  font-family: var(--font);
+  font-variation-settings: "wdth" 90, "wght" 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
   transition:
-    transform var(--dur-fast) var(--ease-out),
+    transform var(--dur-press) var(--ease-out),
     background-color var(--dur-fast) var(--ease-out),
     color var(--dur-fast) var(--ease-out),
+    border-color var(--dur-fast) var(--ease-out),
     box-shadow var(--dur-fast) var(--ease-out);
 }
 
-.btn:active,
-.btn--ghost:active,
-.btn--on-frame:active,
-.btn--ghost-on-frame:active {
-  transform: scale(0.97);
-}
-
 .btn {
-  background: var(--primary);
-  color: var(--on-primary);
-}
-
-.btn:hover {
-  background: var(--primary-deep);
-  transform: translateY(-1px);
-  box-shadow: 0 6px 20px oklch(0.78 0.135 85 / 0.4);
+  background: var(--gold);
+  color: var(--on-gold);
 }
 
 .btn--ghost {
   background: transparent;
-  color: var(--ink);
-  border-color: var(--ink);
+  color: var(--on-void);
+  border-color: oklch(1 0 0 / 0.3);
 }
 
-.btn--ghost:hover {
-  background: var(--ink);
-  color: var(--bg);
+.section--cream .btn--ghost {
+  color: var(--on-cream);
+  border-color: var(--hairline-cream);
 }
 
-/* On the charcoal frames the gold button is the loudest thing on the page —
-   which is what the emergency CTA should be. */
-.btn--on-frame {
-  background: var(--primary);
-  color: var(--on-primary);
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover {
+    background: var(--gold-bright);
+    transform: translate3d(0, -2px, 0);
+    box-shadow: var(--shadow-gold);
+  }
+
+  .btn--ghost:hover {
+    border-color: var(--gold);
+    color: var(--gold);
+  }
 }
 
-.btn--on-frame:hover {
-  background: var(--primary-deep);
-  transform: translateY(-1px);
-  box-shadow: var(--shadow-lg);
+.btn:active,
+.btn--ghost:active {
+  transform: scale(0.97);
 }
 
-.btn--ghost-on-frame {
-  background: transparent;
-  color: var(--on-frame);
-  border-color: var(--hairline-frame);
+/* Arrow that nudges on hover — feedback only, so it stays fast. */
+.btn .arrow,
+.link-arrow .arrow {
+  transition: transform var(--dur-fast) var(--ease-out);
 }
 
-.btn--ghost-on-frame:hover {
-  background: oklch(1 0 0 / 0.1);
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover .arrow,
+  .link-arrow:hover .arrow {
+    transform: translate3d(4px, -4px, 0);
+  }
 }
 
-/* ---- full-bleed dark frame ---- */
-.frame {
-  background: var(--frame);
-  color: var(--on-frame);
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font);
+  font-variation-settings: "wdth" 90, "wght" 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--gold);
+  padding-block: 0.5rem;
+  border-bottom: 1px solid oklch(0.78 0.135 85 / 0.35);
 }
 
-.frame h2 {
-  color: var(--on-frame);
+.section--cream .link-arrow {
+  color: var(--gold-ink);
+  border-bottom-color: oklch(0.5 0.115 72 / 0.35);
 }
 
 /* ---- tag pill ---- */
 .pill {
   display: inline-flex;
   align-items: center;
-  gap: 0.3rem;
-  padding: 0.15rem 0.6rem;
+  padding: 0.2rem 0.6rem;
   border-radius: var(--radius-pill);
-  background: var(--accent-tint);
-  color: var(--accent-deep);
-  font-size: 0.72rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
+  border: 1px solid oklch(0.58 0.12 150 / 0.5);
+  color: var(--green);
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   white-space: nowrap;
 }
 
-/* ---- skip link ---- */
+.section--cream .pill {
+  color: var(--green-ink);
+  border-color: oklch(0.42 0.1 150 / 0.4);
+}
+
+/* ---- utility ---- */
 .skip {
   position: absolute;
   left: var(--s-4);
-  top: -3rem;
+  top: -4rem;
   z-index: var(--z-overlay);
-  background: var(--bg);
-  color: var(--ink);
-  padding: 0.6rem 1rem;
+  background: var(--gold);
+  color: var(--on-gold);
+  padding: 0.7rem 1.1rem;
   border-radius: var(--radius);
-  box-shadow: var(--shadow-lg);
+  font-weight: 700;
+  text-decoration: none;
   transition: top var(--dur-fast) var(--ease-out);
 }
 

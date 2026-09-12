@@ -1,0 +1,274 @@
+/* Savanna Roofing — motion system.
+ *
+ * Scope: this is a marketing page. A visitor sees it once, maybe twice, with
+ * water coming through their ceiling. So the delight budget is real (rare /
+ * first-time tier) but it never gets in front of the phone number: nothing
+ * here delays interaction, gates content, or runs on a loop in the reader's
+ * peripheral vision while they're trying to read.
+ *
+ * Rules this file holds itself to:
+ *   • transform + opacity only (clip-path is the one sanctioned extra)
+ *   • transitions, not keyframes, for anything that can retrigger
+ *   • scroll-linked motion runs on the compositor via animation-timeline
+ *     where supported, so it doesn't fight the main thread
+ *   • NOTHING is hidden unless JS is running — see the .js gate below
+ *   • prefers-reduced-motion keeps the fades, drops every translation
+ */
+
+/* ---------------------------------------------------------------------------
+   Reveal primitive.
+
+   The .js gate matters: without it, a JS failure or a headless renderer ships
+   a blank page. Elements are fully visible by default and only become
+   animatable once the script confirms it's running.
+--------------------------------------------------------------------------- */
+.js [data-reveal] {
+  opacity: 0;
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out),
+    clip-path var(--dur-reveal) var(--ease-out);
+  transition-delay: calc(var(--i, 0) * var(--stagger));
+  will-change: transform, opacity;
+}
+
+.js [data-reveal="up"] {
+  transform: translate3d(0, 28px, 0);
+}
+
+.js [data-reveal="rise"] {
+  transform: translate3d(0, 64px, 0);
+}
+
+/* Cards hinge in off a plane — the roof-pitch gesture, used for anything that
+   reads as a physical panel. */
+.js [data-reveal="depth"] {
+  transform: perspective(1200px) translate3d(0, 40px, -90px) rotateX(12deg);
+  transform-origin: 50% 100%;
+}
+
+.js [data-reveal="swing"] {
+  transform: perspective(1200px) translate3d(40px, 0, -60px) rotateY(-14deg);
+  transform-origin: 0% 50%;
+}
+
+/* Masked media reveal: the frame holds still and the picture settles into it.
+   The clip lives on the media wrapper (which already has overflow:hidden), NOT
+   on the observed element — an element that clips itself to zero reports an
+   intersection ratio of zero, so IntersectionObserver would never fire and the
+   reveal could never run. */
+.js [data-reveal="mask"] :where(img, .figure) {
+  transform: translate3d(0, 10%, 0) scale(1.08);
+  transition: transform 900ms var(--ease-out);
+}
+
+.js [data-reveal="mask"].is-in :where(img, .figure) {
+  transform: none;
+}
+
+.js [data-reveal="scale"] {
+  transform: scale(0.94);
+}
+
+.js [data-reveal].is-in {
+  opacity: 1;
+  transform: none;
+  will-change: auto;
+}
+
+/* ---------------------------------------------------------------------------
+   Hinge text reveal. Lines pivot up off their own baseline, like a panel
+   being raised into place. Built by motion.ts, which wraps each line.
+--------------------------------------------------------------------------- */
+.hinge {
+  perspective: 800px;
+}
+
+.hinge__line {
+  display: block;
+  overflow: hidden;
+  /* overflow:hidden would clip descenders; pad and pull back to compensate */
+  padding-bottom: 0.14em;
+  margin-bottom: -0.14em;
+}
+
+.js .hinge__inner {
+  display: block;
+  transform-origin: 50% 100%;
+  transform: translate3d(0, 108%, 0) rotateX(-72deg);
+  opacity: 0;
+  transition:
+    transform var(--dur-scene) var(--ease-out),
+    opacity 420ms linear;
+  transition-delay: calc(var(--i, 0) * 90ms);
+}
+
+.js .hinge.is-in .hinge__inner {
+  transform: none;
+  opacity: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   Pointer tilt. Decorative mouse-tracking — allowed here because this is a
+   marketing surface, not data someone is reading. JS writes the two angle
+   vars on pointermove; the transition does the smoothing, so an interrupted
+   or reversed movement retargets from wherever it is instead of restarting.
+--------------------------------------------------------------------------- */
+@media (hover: hover) and (pointer: fine) {
+  /* Only applies once the element has finished its entrance — otherwise the
+     tilt transform would overwrite the reveal's transform mid-flight. */
+  [data-tilt]:not([data-reveal]),
+  [data-tilt][data-reveal].is-in {
+    transform: perspective(900px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transition: transform 400ms var(--ease-out);
+    transform-style: preserve-3d;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Scroll-linked motion. Pure CSS where the browser supports scroll timelines
+   (compositor-driven, survives a busy main thread); a static no-op elsewhere.
+--------------------------------------------------------------------------- */
+.scroll-progress {
+  position: fixed;
+  inset: 0 0 auto 0;
+  height: 2px;
+  z-index: var(--z-overlay);
+  background: linear-gradient(90deg, var(--gold-deep), var(--gold));
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  .scroll-progress {
+    animation: progress-fill linear both;
+    animation-timeline: scroll(root block);
+  }
+}
+
+@keyframes progress-fill {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+/* Giant outlined wordmark drifting behind a section as it passes. Decorative,
+   sits behind content, never animates into the reader's line of text. */
+.ghost {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  translate: -50% -50%;
+  z-index: 0;
+  font-family: var(--font);
+  font-variation-settings: var(--display-axes);
+  font-size: clamp(7rem, 26vw, 24rem);
+  line-height: 0.8;
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: transparent;
+  -webkit-text-stroke: 1px var(--hairline);
+  pointer-events: none;
+  user-select: none;
+}
+
+.ghost--cream {
+  -webkit-text-stroke-color: var(--hairline-cream);
+}
+
+@supports (animation-timeline: view()) {
+  .ghost {
+    animation: ghost-drift linear both;
+    animation-timeline: view(block);
+    animation-range: cover;
+  }
+}
+
+@keyframes ghost-drift {
+  from {
+    transform: translate3d(7%, 0, 0);
+  }
+  to {
+    transform: translate3d(-9%, 0, 0);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Sheen — a single gold pass across a surface on hover. Feedback tier, so it
+   is fast, and it is gated to real pointers (touch fires a false hover on tap
+   and would leave the sheen stuck mid-sweep).
+--------------------------------------------------------------------------- */
+@media (hover: hover) and (pointer: fine) {
+  .sheen {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sheen::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      105deg,
+      transparent 38%,
+      oklch(0.87 0.115 92 / 0.16) 50%,
+      transparent 62%
+    );
+    transform: translate3d(-120%, 0, 0);
+    transition: transform 620ms var(--ease-out);
+    pointer-events: none;
+  }
+
+  .sheen:hover::after {
+    transform: translate3d(120%, 0, 0);
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion. Fewer and gentler, not zero: the fades stay so entrances
+   still read as arrivals, every translation/rotation is dropped, and anything
+   that loops or tracks the pointer is switched off entirely.
+--------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .js [data-reveal],
+  .js [data-reveal="up"],
+  .js [data-reveal="rise"],
+  .js [data-reveal="depth"],
+  .js [data-reveal="swing"],
+  .js [data-reveal="scale"] {
+    transform: none;
+    transition: opacity 300ms var(--ease-out);
+  }
+
+  .js [data-reveal="mask"] :where(img, .figure) {
+    transform: none;
+    transition: none;
+  }
+
+  .js .hinge__inner {
+    transform: none;
+    transition: opacity 300ms var(--ease-out);
+  }
+
+  [data-tilt] {
+    transform: none !important;
+    transition: none;
+  }
+
+  .ghost {
+    animation: none;
+    transform: none;
+  }
+
+  .scroll-progress {
+    animation: none;
+    transform: scaleX(1);
+    opacity: 0.4;
+  }
+
+  .sheen::after {
+    display: none;
+  }
+}

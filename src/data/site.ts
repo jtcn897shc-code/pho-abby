@@ -206,6 +206,20 @@ export const about: string[] = [
   "TODO: the owner's story — where the name comes from, how long they have been on roofs, why Metro Vancouver.",
 ];
 
+/**
+ * The stat band. Every figure here is CONFIRMED — the count of municipalities
+ * and the two roof systems both come from Savanna's own post. No invented
+ * "18+ years" or "2,400 roofs": unverifiable numerals are the single most
+ * common tell of a fabricated contractor site, and they are the first thing a
+ * suspicious homeowner checks. The third slot is deliberately not a numeral,
+ * which also keeps the row from reading as three interchangeable counters.
+ */
+export const stats: { figure?: number; word?: string; label: string; note: string }[] = [
+  { figure: 6, label: "Cities served", note: "Vancouver through to Coquitlam" },
+  { figure: 2, label: "Roof systems", note: "Flat membrane and asphalt shingle" },
+  { word: "Rain", label: "Or shine", note: "We attend active leaks in wet weather" },
+];
+
 export const valueStrip = [
   "Flat roof and asphalt shingle", // (confirmed)
   "Residential and commercial", // (confirmed)

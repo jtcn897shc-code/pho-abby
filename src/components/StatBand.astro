@@ -1,0 +1,115 @@
+---
+import { stats, valueStrip } from "../data/site";
+---
+
+<section class="band section--void">
+  <div class="shell band__inner">
+    <ul class="band__stats">
+      {
+        stats.map((s, i) => (
+          <li class="stat" data-reveal="up" style={`--i:${i}`}>
+            <span class="stat__figure display">
+              {s.figure !== undefined ? <span data-count={s.figure}>0</span> : s.word}
+            </span>
+            <span class="stat__label">{s.label}</span>
+            <span class="stat__note">{s.note}</span>
+          </li>
+        ))
+      }
+    </ul>
+
+    <ul class="band__marks" data-reveal="up" style="--i:3">
+      {valueStrip.map((phrase) => <li>{phrase}</li>)}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .band {
+    border-block: 1px solid var(--hairline);
+    padding-block: clamp(2.5rem, 6vw, 4rem);
+    background: var(--void-2);
+  }
+
+  .band__inner {
+    display: grid;
+    gap: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .band__stats {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.25rem, 4vw, 3rem);
+  }
+
+  .stat {
+    display: grid;
+    gap: 0.35rem;
+    padding-left: clamp(0.9rem, 2vw, 1.4rem);
+    border-left: 2px solid var(--gold);
+  }
+
+  .stat__figure {
+    font-size: clamp(2.6rem, 7vw, 5rem);
+    line-height: 0.85;
+    color: var(--gold);
+    /* tabular figures stop the counter re-flowing its neighbours mid-count */
+    font-variant-numeric: tabular-nums;
+  }
+
+  .stat__label {
+    font-family: var(--font);
+    font-variation-settings: "wdth" 88, "wght" 700;
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--on-void);
+  }
+
+  .stat__note {
+    font-size: 0.85rem;
+    color: var(--on-void-dim);
+    max-width: 22ch;
+  }
+
+  .band__marks {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem 2rem;
+    padding-top: clamp(1.25rem, 3vw, 2rem);
+    border-top: 1px solid var(--hairline);
+  }
+
+  .band__marks li {
+    position: relative;
+    padding-left: 1.3rem;
+    font-size: 0.9rem;
+    color: var(--on-void-dim);
+  }
+
+  .band__marks li::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.36em;
+    width: 0.42rem;
+    height: 0.72rem;
+    border: solid var(--green);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+  }
+
+  @media (max-width: 760px) {
+    .band__stats {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .stat__note {
+      max-width: none;
+    }
+  }
+</style>

@@ -1,50 +1,63 @@
-/* Savanna Roofing — design tokens. Implements DESIGN.md 1:1. OKLCH only.
+/* Savanna Roofing — design tokens. OKLCH only.
  *
- * Palette is read straight off the logo: savanna gold (the sun), acacia green
- * (the tree and hills), charcoal (the wordmark), on cream/white.
+ * DARK-FIRST. The page ground is near-black; cream sections are the contrast
+ * breaks, not the default. This inverts the earlier build for one concrete
+ * reason: the brand gold is bright (L 0.78), so on white it fails as text
+ * (2.3:1) and could only ever be a fill. On the near-black ground it lands at
+ * ~6.5:1 and finally works as type, rules, numerals and CTAs — the logo's own
+ * colour gets to carry the page instead of hiding in it.
  *
- * CONTRAST RULE — this is the one that bites. The brand gold is BRIGHT
- * (L 0.78), so it cannot carry white text and cannot BE text on white
- * (2.3:1, fails). Therefore:
- *   • gold is a FILL, always with --on-primary (charcoal) text on it — 6.0:1 ✓
- *   • headings are --ink charcoal, not gold, with a gold rule doing the accent
- *   • --primary-text is the one deep ochre allowed as text on white — 5.8:1 ✓
- * The logo itself works exactly this way: charcoal wordmark, gold bars under it.
+ * Contrast on --void: gold 6.5:1 ✓  cream 13:1 ✓  cream-dim 7.4:1 ✓
+ * On --gold fills, text is --void (6.5:1 ✓). Never white on gold.
  */
 :root {
-  /* ---- colour ---- */
-  --bg: oklch(1 0 0);
-  --surface: oklch(0.975 0.006 85); /* barely-warm wash, nods at the logo cream */
-  --frame: oklch(0.25 0.008 60); /* charcoal — the logo wordmark, and a roof */
+  /* ---- ground ---- */
+  --void: oklch(0.16 0.006 60); /* page base — warm near-black, never pure #000 */
+  --void-2: oklch(0.21 0.008 60); /* raised dark surface: cards, wells */
+  --void-3: oklch(0.26 0.009 60); /* hairline-adjacent dark, hover states */
+  --cream: oklch(0.96 0.008 85); /* light section ground */
+  --cream-2: oklch(0.92 0.01 85); /* light surface within cream sections */
 
-  --ink: oklch(0.22 0.008 60);
-  --muted: oklch(0.5 0.008 60);
-  --on-frame: oklch(0.96 0.004 85);
-  --on-frame-muted: oklch(0.78 0.006 85);
+  /* ---- ink ---- */
+  --on-void: oklch(0.96 0.008 85);
+  --on-void-dim: oklch(0.72 0.008 75);
+  --on-cream: oklch(0.18 0.007 60);
+  --on-cream-dim: oklch(0.46 0.008 60);
 
-  --primary: oklch(0.78 0.135 85); /* savanna gold — FILLS ONLY */
-  --primary-deep: oklch(0.66 0.13 80); /* hover fill, rules on gold */
-  --primary-bright: oklch(0.87 0.115 92); /* focus ring, glints */
-  --primary-text: oklch(0.52 0.115 72); /* deep ochre — the only gold safe as text on white */
-  --on-primary: oklch(0.2 0.01 60); /* charcoal text on every gold fill */
+  /* ---- brand ---- */
+  --gold: oklch(0.78 0.135 85); /* the logo sun. On dark it is finally text-safe. */
+  --gold-deep: oklch(0.66 0.13 80);
+  --gold-bright: oklch(0.87 0.115 92);
+  --gold-ink: oklch(0.5 0.115 72); /* the one gold safe as text on cream */
+  --on-gold: oklch(0.17 0.01 60); /* text on gold fills — never white */
+  --green: oklch(0.58 0.12 150); /* acacia, lifted to read on the dark ground */
+  --green-ink: oklch(0.42 0.1 150); /* acacia on cream */
 
-  --accent: oklch(0.48 0.11 150); /* acacia green — ticks, links, today's row */
-  --accent-deep: oklch(0.38 0.09 150);
-  --accent-tint: oklch(0.48 0.11 150 / 0.12);
+  --hairline: oklch(1 0 0 / 0.12);
+  --hairline-cream: oklch(0.18 0.007 60 / 0.14);
 
-  --hairline: oklch(0.9 0.004 70);
-  --hairline-frame: oklch(1 0 0 / 0.16);
+  /* ---- type ----
+     One family, two extremes. Archivo carries a width axis (62-125), so the
+     condensed poster display and the normal-width UI come from the same
+     typeface — a deliberate pairing rather than two unrelated fonts. */
+  --font: "Archivo Variable", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  --font-body: "Schibsted Grotesk Variable", var(--font);
 
-  /* ---- type ---- */
-  --font: "Schibsted Grotesk Variable", ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* display: condensed + black. Set as variation settings, not a separate face. */
+  --display-axes: "wdth" 64, "wght" 900;
+  --display-axes-soft: "wdth" 78, "wght" 800;
 
-  --fs-display: clamp(2.6rem, 7vw, 4.6rem);
-  --fs-h2: clamp(1.9rem, 4vw, 2.9rem);
-  --fs-h3: clamp(1.15rem, 2vw, 1.4rem);
-  --fs-lead: clamp(1.05rem, 1.6vw, 1.2rem);
+  /* Capped deliberately: a three-line hero headline at 11rem pushes the phone
+     CTA below the fold on a 900px laptop, and on this site the CTA is the
+     point. Big enough to shout, small enough to leave room for the number. */
+  --fs-mega: clamp(2.8rem, 10.5vw, 8.5rem);
+  --fs-display: clamp(2.6rem, 8vw, 6rem);
+  --fs-h2: clamp(2.2rem, 6vw, 4.5rem);
+  --fs-h3: clamp(1.15rem, 2vw, 1.5rem);
+  --fs-lead: clamp(1.05rem, 1.5vw, 1.25rem);
   --fs-body: 1rem;
-  --fs-micro: 0.82rem;
+  --fs-micro: 0.75rem;
 
   /* ---- space ---- */
   --s-1: 0.25rem;
@@ -57,28 +70,35 @@
   --s-16: 4rem;
   --s-24: 6rem;
 
-  --section-y: clamp(3.5rem, 9vw, 7rem);
-  --shell: 74rem;
-  --gutter: clamp(1.1rem, 4vw, 2.5rem);
+  --section-y: clamp(5rem, 12vw, 10rem);
+  --shell: 78rem;
+  --gutter: clamp(1.15rem, 4vw, 3rem);
 
-  /* ---- shape ----
-     Tighter than the restaurant build. A trade site should read solid and
-     built, not soft and friendly: 8px on cards, 8px on buttons, pill reserved
-     for chips (nav phone, tag pills). */
-  --radius: 8px;
-  --radius-btn: 8px;
+  /* ---- shape ---- */
+  --radius: 4px; /* tighter than the last build — this system is edges, not pills */
+  --radius-lg: 10px;
   --radius-pill: 999px;
 
-  /* ---- elevation (neutral-warm, never pure black) ---- */
-  --shadow-sm: 0 1px 2px oklch(0.25 0.008 60 / 0.12);
-  --shadow-lg: 0 8px 30px oklch(0.25 0.008 60 / 0.12);
+  /* ---- depth ---- */
+  --shadow-lg: 0 30px 80px oklch(0 0 0 / 0.55);
+  --shadow-gold: 0 18px 50px oklch(0.78 0.135 85 / 0.25);
 
-  /* ---- motion ---- */
-  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
-  --dur-fast: 0.18s;
-  --dur-mid: 0.32s;
+  /* ---- motion ----
+     Curves are the strong ones; the browser built-ins are too weak to read as
+     deliberate at these sizes. Durations split by tier: UI feedback stays
+     under 300ms, marketing reveals are allowed to breathe. */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 
-  /* ---- z-index scale ---- */
+  --dur-press: 140ms; /* button press feedback */
+  --dur-fast: 180ms; /* hover, small state */
+  --dur-mid: 260ms; /* UI transitions */
+  --dur-reveal: 720ms; /* scroll reveals — marketing tier */
+  --dur-scene: 1000ms; /* hero scene assembly, once per visit */
+
+  --stagger: 60ms; /* per-item delay in a group entrance */
+
+  /* ---- z ---- */
   --z-sticky: 100;
   --z-nav: 200;
   --z-overlay: 300;

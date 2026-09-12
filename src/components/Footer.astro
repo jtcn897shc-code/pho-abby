@@ -6,7 +6,7 @@ const year = new Date().getFullYear();
 
 <footer class="footer">
   <div class="shell footer__inner">
-    <div class="footer__brand">
+    <div class="footer__brand" data-reveal="up">
       <img
         class="footer__logo"
         src={logos.lockupReversed}
@@ -17,32 +17,39 @@ const year = new Date().getFullYear();
         decoding="async"
       />
       <p class="footer__promise">{site.promise}</p>
-      <p>{site.description}</p>
     </div>
 
-    <div class="footer__col">
-      <h2>Service area</h2>
-      <p>{serviceArea.cities.join(" · ")}</p>
-      <a href={`tel:${contact.phoneTel}`}>{contact.phoneDisplay}</a>
-      <a href={`mailto:${contact.email}`}>{contact.email}</a>
-    </div>
+    <div class="footer__cols">
+      <div class="footer__col" data-reveal="up" style="--i:1">
+        <h2>Service area</h2>
+        <p>{serviceArea.cities.join(" · ")}</p>
+      </div>
 
-    {
-      socials.length > 0 && (
-        <div class="footer__col">
-          <h2>Follow</h2>
-          <ul>
+      <div class="footer__col" data-reveal="up" style="--i:2">
+        <h2>Contact</h2>
+        <a href={`tel:${contact.phoneTel}`}>{contact.phoneDisplay}</a>
+        <a href={`mailto:${contact.email}`}>{contact.email}</a>
+      </div>
+
+      {
+        socials.length > 0 && (
+          <div class="footer__col" data-reveal="up" style="--i:3">
+            <h2>Follow</h2>
             {socials.map((s) => (
-              <li>
-                <a href={s.href} target="_blank" rel="noopener">
-                  {s.label}
-                </a>
-              </li>
+              <a href={s.href} target="_blank" rel="noopener">
+                {s.label}
+              </a>
             ))}
-          </ul>
-        </div>
-      )
-    }
+          </div>
+        )
+      }
+    </div>
+  </div>
+
+  <!-- The wordmark as architecture: cropped by the viewport edge, the way a
+       roofline runs past the frame of a photograph. -->
+  <div class="footer__word" aria-hidden="true">
+    <span class="display">Savanna</span>
   </div>
 
   <div class="shell footer__base">
@@ -54,71 +61,83 @@ const year = new Date().getFullYear();
 </footer>
 
 <style>
-  /* Charcoal, not gold — the brand gold cannot carry white text (see
-     tokens.css). Gold appears here as the rule above the wordmark only. */
   .footer {
-    background: var(--frame);
-    color: var(--on-frame);
+    position: relative;
+    background: var(--void);
+    color: var(--on-void);
     padding-top: var(--section-y);
-    border-top: 5px solid var(--primary);
+    border-top: 3px solid var(--gold);
+    overflow: clip;
   }
 
   .footer__inner {
     display: grid;
-    grid-template-columns: 1.6fr 1fr 1fr;
-    gap: clamp(1.5rem, 4vw, 3rem);
-    padding-bottom: var(--s-12);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: clamp(2rem, 6vw, 4rem);
+    padding-bottom: clamp(2rem, 5vw, 3.5rem);
   }
 
   .footer__logo {
-    width: clamp(150px, 18vw, 200px);
+    width: clamp(150px, 20vw, 210px);
     height: auto;
   }
 
-  .footer__brand p {
-    margin-top: var(--s-3);
-    max-width: 42ch;
-    color: var(--on-frame-muted);
-    font-size: 0.9rem;
-  }
-
   .footer__promise {
-    color: var(--primary) !important;
-    font-weight: 700;
+    margin-top: var(--s-4);
+    font-family: var(--font);
+    font-variation-settings: "wdth" 88, "wght" 700;
+    font-size: var(--fs-micro);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
   }
 
-  .footer__col a {
-    display: block;
+  .footer__cols {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 11rem), 1fr));
+    gap: clamp(1.5rem, 4vw, 2.5rem);
   }
 
   .footer__col h2 {
-    font-size: 0.75rem;
-    font-weight: 700;
-    letter-spacing: 0.08em;
+    font-family: var(--font);
+    font-variation-settings: "wdth" 88, "wght" 700;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--on-frame-muted);
+    color: var(--on-void-dim);
     margin-bottom: var(--s-4);
   }
 
   .footer__col p,
   .footer__col a {
-    color: var(--on-frame);
+    display: block;
+    color: var(--on-void);
     font-size: 0.92rem;
     text-decoration: none;
-    line-height: 1.7;
+    line-height: 1.8;
+    transition: color var(--dur-fast) var(--ease-out);
   }
 
-  .footer__col ul {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    gap: 0.35rem;
+  @media (hover: hover) and (pointer: fine) {
+    .footer__col a:hover {
+      color: var(--gold);
+    }
   }
 
-  .footer__col a:hover {
-    text-decoration: underline;
-    text-decoration-color: var(--accent);
-    text-underline-offset: 3px;
+  .footer__word {
+    line-height: 0.72;
+    padding-inline: var(--gutter);
+    margin-top: clamp(1rem, 3vw, 2rem);
+    pointer-events: none;
+    user-select: none;
+  }
+
+  .footer__word .display {
+    display: block;
+    font-size: clamp(4.5rem, 21vw, 18rem);
+    color: transparent;
+    -webkit-text-stroke: 1.5px oklch(1 0 0 / 0.16);
+    white-space: nowrap;
   }
 
   .footer__base {
@@ -127,26 +146,26 @@ const year = new Date().getFullYear();
     flex-wrap: wrap;
     gap: 0.75rem;
     padding-block: var(--s-6);
-    border-top: 1px solid var(--hairline-frame);
-    font-size: 0.8rem;
-    color: var(--on-frame-muted);
+    margin-top: var(--s-6);
+    border-top: 1px solid var(--hairline);
+    font-size: 0.78rem;
+    color: var(--on-void-dim);
   }
 
   .footer__credit {
-    color: var(--on-frame-muted);
+    color: var(--on-void-dim);
     text-decoration: none;
   }
 
-  .footer__credit:hover {
-    color: var(--on-frame);
+  @media (hover: hover) and (pointer: fine) {
+    .footer__credit:hover {
+      color: var(--on-void);
+    }
   }
 
-  @media (max-width: 720px) {
+  @media (max-width: 860px) {
     .footer__inner {
-      grid-template-columns: 1fr 1fr;
-    }
-    .footer__brand {
-      grid-column: 1 / -1;
+      grid-template-columns: 1fr;
     }
   }
 </style>

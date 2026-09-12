@@ -45,7 +45,7 @@ const { src, alt, label, kind, ratio = "4 / 3", eager = false, class: cls } = As
     object-fit: cover;
   }
 
-  /* Placeholder fills read as "roof": charcoal slate with a low savanna sun
+  /* Placeholder fills read as "roof": dark slate with a low savanna sun
      behind it. Three variants so a page of placeholders isn't one flat wall. */
   .figure--ph {
     display: flex;
@@ -55,22 +55,22 @@ const { src, alt, label, kind, ratio = "4 / 3", eager = false, class: cls } = As
     gap: 0.5rem;
     text-align: center;
     padding: 1rem;
-    color: #fff;
+    color: var(--on-void);
     background:
-      radial-gradient(110% 80% at 78% 12%, oklch(0.78 0.135 85 / 0.45), transparent 58%),
-      linear-gradient(155deg, oklch(0.42 0.012 60), oklch(0.26 0.008 60));
+      radial-gradient(110% 80% at 78% 12%, oklch(0.78 0.135 85 / 0.4), transparent 58%),
+      linear-gradient(155deg, oklch(0.32 0.012 60), oklch(0.19 0.008 60));
   }
 
   .figure--crew {
     background:
-      radial-gradient(110% 85% at 22% 8%, oklch(0.48 0.11 150 / 0.45), transparent 60%),
-      linear-gradient(160deg, oklch(0.38 0.012 60), oklch(0.24 0.008 60));
+      radial-gradient(110% 85% at 22% 8%, oklch(0.58 0.12 150 / 0.4), transparent 60%),
+      linear-gradient(160deg, oklch(0.3 0.012 60), oklch(0.18 0.008 60));
   }
 
   .figure--damage {
     background:
-      radial-gradient(120% 95% at 50% 105%, oklch(0.78 0.135 85 / 0.3), transparent 55%),
-      linear-gradient(150deg, oklch(0.33 0.01 60), oklch(0.22 0.008 60));
+      radial-gradient(120% 95% at 50% 105%, oklch(0.78 0.135 85 / 0.28), transparent 55%),
+      linear-gradient(150deg, oklch(0.27 0.01 60), oklch(0.17 0.008 60));
   }
 
   .figure__mark {
@@ -80,16 +80,18 @@ const { src, alt, label, kind, ratio = "4 / 3", eager = false, class: cls } = As
   }
 
   .figure__label {
-    font-weight: 700;
-    font-size: 0.95rem;
-    letter-spacing: -0.01em;
+    font-family: var(--font);
+    font-variation-settings: "wdth" 84, "wght" 800;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
   }
 
   .figure__hint {
-    font-size: 0.68rem;
+    font-size: 0.64rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
-    color: oklch(1 0 0 / 0.6);
+    color: var(--gold);
   }
 </style>
