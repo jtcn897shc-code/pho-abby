@@ -1,173 +1,180 @@
 # DESIGN.md — Savanna Roofing Ltd.
 
-Palette read directly off the company logo: savanna gold (the sun), acacia green
-(the tree and the hills), charcoal (the wordmark), on white. Structure inherited
-from the Destura Astro one-pager playbook.
+Dark editorial. Giant condensed type, real depth, and the brand gold finally
+doing the work it was drawn to do.
 
-Mood phrase: *"charcoal shingle still wet from the last of the rain, with the
-sun coming in low and gold behind it."*
+Mood phrase: *"the last of the light coming off a wet charcoal roof — everything
+in shadow except the one warm edge."*
 
 ---
 
-## 1. Visual Theme & Atmosphere
+## 1. The inversion, and why
 
-Pure-white page. The weight comes from **charcoal** — it is both the wordmark
-colour and, conveniently, the colour of the roofs this company installs. The
-**gold** is the voltage: one value strip, the emergency services block, every
-primary button, the rule above every section heading, the top edge of the
-footer. **Acacia green** is a mark only — check ticks, today's hours dot, link
-underlines — under 8% of the surface.
+The previous build was a white page. That forced the brand gold into a corner:
+at L 0.78 it scores 2.3:1 on white, so it could never be type, only a fill,
+and the headings had to be charcoal with a gold rule doing the accent work.
 
-The page has a beat: white editorial sections alternate with a gold strip, a
-gold emergency block, and two charcoal frames (Leak response, Footer).
+On a near-black ground the same gold lands at **6.5:1**. It can be headlines,
+numerals, phone numbers, rules and CTAs. The logo's own colour gets to carry the
+page instead of hiding in it — so the page went dark.
 
-Geometry is tighter than a hospitality build — **8px** on cards, images and
-buttons, pill reserved for chips (nav phone, tag pills). A trade site should
-read built, not soft. Elevation is a whisper, tinted neutral-warm, never pure
-black.
+Cream sections are now the contrast break, not the default. The rhythm is:
+dark hero → dark stat band → **cream** services → dark leak response → **cream**
+about → dark work → dark quote → dark footer.
 
-## 2. Colour Palette & Roles (OKLCH)
+## 2. Colour (OKLCH)
 
 | Token | Value | Role |
 |---|---|---|
-| `--bg` | `oklch(1 0 0)` | page background — pure white |
-| `--surface` | `oklch(0.975 0.006 85)` | alternating wash; a nod at the logo cream, not a cream page |
-| `--frame` | `oklch(0.25 0.008 60)` | charcoal full-bleed frames (Leak response, Footer), hero scrim |
-| `--ink` | `oklch(0.22 0.008 60)` | body text and **all headings** — 14:1 on `--bg` |
-| `--muted` | `oklch(0.50 0.008 60)` | secondary text — 4.9:1 on `--bg` |
-| `--on-frame` | `oklch(0.96 0.004 85)` | text on `--frame` |
-| `--on-frame-muted` | `oklch(0.78 0.006 85)` | secondary text on `--frame` |
-| `--primary` | `oklch(0.78 0.135 85)` | savanna gold — **fills only** |
-| `--primary-deep` | `oklch(0.66 0.13 80)` | hover fill, rules on gold |
-| `--primary-bright` | `oklch(0.87 0.115 92)` | focus ring, glints |
-| `--primary-text` | `oklch(0.52 0.115 72)` | deep ochre — the only gold allowed as text on white (5.8:1) |
-| `--on-primary` | `oklch(0.20 0.01 60)` | charcoal text on every gold fill (6.0:1) |
-| `--accent` | `oklch(0.48 0.11 150)` | acacia green — ticks, today's row, link underlines |
-| `--accent-deep` | `oklch(0.38 0.09 150)` | green as small text, strip bullets |
-| `--hairline` | `oklch(0.90 0.004 70)` | 1px borders on white |
-| `--hairline-frame` | `oklch(1 0 0 / 0.16)` | 1px borders on charcoal |
+| `--void` | `oklch(0.16 0.006 60)` | page ground — warm near-black, never pure #000 |
+| `--void-2` | `oklch(0.21 0.008 60)` | raised dark surface: cards, wells, intake panel |
+| `--cream` | `oklch(0.96 0.008 85)` | light section ground |
+| `--cream-2` | `oklch(0.92 0.01 85)` | surface within cream sections |
+| `--on-void` | `oklch(0.96 0.008 85)` | text on dark — 13:1 |
+| `--on-void-dim` | `oklch(0.72 0.008 75)` | secondary on dark — 7.4:1 |
+| `--gold` | `oklch(0.78 0.135 85)` | the logo sun. **Text-safe on dark at 6.5:1** |
+| `--gold-ink` | `oklch(0.50 0.115 72)` | the one gold safe as text on cream |
+| `--on-gold` | `oklch(0.17 0.01 60)` | text on gold fills — never white |
+| `--green` | `oklch(0.58 0.12 150)` | acacia, lifted to read on dark: ticks, live dot |
+| `--green-ink` | `oklch(0.42 0.10 150)` | acacia on cream |
 
-**The contrast rule that governs this palette.** The brand gold is bright
-(L 0.78). It therefore:
-
-- **cannot carry white text** — 2.3:1, fails. Gold fills take `--on-primary`.
-- **cannot be text on white** — also 2.3:1, fails. Headings are `--ink`, and
-  the gold appears as a short rule above the heading instead.
-- has exactly one text-safe form, `--primary-text`, for the phone number and
-  list markers on white.
-
-This is how the logo itself is built: charcoal wordmark, gold bars beneath it.
-Follow it and the contrast problems disappear.
+The rule that still holds from the last build: **never white text on gold.**
+Gold fills take `--on-gold` charcoal. What changed is that gold is no longer
+fill-only — on `--void` it is a first-class text colour.
 
 ## 3. Typography
 
-**One family, many weights: Schibsted Grotesk Variable**, 400 / 500 / 700 / 900.
-No second family, no serif. Hierarchy is weight + size + colour, never a font
-swap.
+**One family, two extremes: Archivo Variable**, which carries a width axis
+(62–125) as well as weight. The condensed poster display and the normal-width
+UI come from the same typeface — a deliberate pairing, not two unrelated fonts.
+Schibsted Grotesk stays for body copy, where a condensed face would hurt.
 
-| Step | clamp | weight | tracking | use |
-|---|---|---|---|---|
-| display | `clamp(2.6rem, 7vw, 4.6rem)` | 900 | `-0.03em` | hero headline (≤ 2 lines) |
-| h2 | `clamp(1.9rem, 4vw, 2.9rem)` | 800 | `-0.02em` | section headings (charcoal, gold rule above) |
-| h3 | `clamp(1.15rem, 2vw, 1.4rem)` | 700 | `-0.01em` | service group headings, card titles |
-| lead | `clamp(1.05rem, 1.6vw, 1.2rem)` | 400 | `0` | hero sub, about opener |
-| body | `1rem` / `1.6` | 400 | `0` | prose, capped 66ch |
-| micro | `0.82rem` | 600 | `0.02em` | nav links, pills, footer meta — never an eyebrow on every section |
+| Step | Size | Axes | Use |
+|---|---|---|---|
+| mega | `clamp(2.8rem, 10.5vw, 8.5rem)` | `wdth 64, wght 900` | hero headline, section openers |
+| h2 | `clamp(2.2rem, 6vw, 4.5rem)` | `wdth 64, wght 900` | section headings |
+| h3 | `clamp(1.15rem, 2vw, 1.5rem)` | `wdth 82, wght 800` | card titles, step titles |
+| eyebrow | `0.75rem` | `wdth 88, wght 700` | numbered section labels |
+| lead | `clamp(1.05rem, 1.5vw, 1.25rem)` | body face | section ledes |
+| body | `1rem / 1.6` | body face | prose, capped ~52ch |
 
-`text-wrap: balance` on h1–h3; `text-wrap: pretty` on prose.
+**The two-finish headline.** Every section opener is a pair: line one solid,
+line two outlined (`-webkit-text-stroke`, `color: transparent`). At these sizes
+a fully solid three-line headline is a wall of ink; the outline gives it air and
+is the single strongest signature on the page.
 
-## 4. Component Stylings
+`--fs-mega` is capped at 8.5rem on purpose. At 11rem the three-line hero pushes
+the phone CTA below the fold on a 900px laptop, and on this site the CTA is the
+point.
 
-**Buttons** — 8px radius, `padding: 0.75rem 1.4rem`, weight 600, min-height 44px.
-Active: `scale(0.97)`. Focus-visible: 2px `--primary-bright` ring, 2px offset.
-- **Primary** (`.btn`): gold fill, `--on-primary` charcoal text. Hover:
-  `--primary-deep`, lift 1px, soft gold glow.
-- **Ghost** (`.btn--ghost`): transparent, 1px `--ink` border. Hover: ink fill.
-- **On-frame** (`.btn--on-frame`): gold fill on the charcoal frames — the
-  loudest element on the page, reserved for the emergency CTA.
-- **Phone pill** (nav, persistent): pill, 1px border, phone glyph + number;
-  collapses to glyph-only < 420px, min 44px tap.
+## 4. Motion
 
-**Nav** — sticky with a negative bottom margin so the hero sits *under* it;
-transparent over the hero, solidifying to white + hairline + whisper shadow once
-a 1px sentinel leaves the viewport (IntersectionObserver, never a scroll
-listener). Without the negative margin the light nav text renders white-on-white
-before first scroll.
+Full system in `src/styles/motion.css`, orchestration in `src/scripts/motion.ts`.
 
-**Services** — five groups. Group 1 (`Active leak, right now`) spans the full
-grid on a gold field with charcoal text and a two-column item list; the other
-four are plain auto-fit columns with a gold underline on the heading. Items are
-name + one-line note, no prices — a roofing quote is site-specific and invented
-pricing is a liability.
+**The gate.** This is a marketing page seen once or twice per visitor — the
+rare / first-time tier, which is where a delight budget is legitimate. It is
+not a tool anyone uses daily, so entrances are allowed to be expressive. What
+they are never allowed to do is delay interaction or gate content.
 
-**Leak response** — charcoal frame. A gold-bordered feature card (`We come out
-in the rain`) spanning two rows, plus two numbered steps in gold discs.
+| Curve | Value | Use |
+|---|---|---|
+| `--ease-out` | `cubic-bezier(0.23, 1, 0.32, 1)` | everything entering |
+| `--ease-in-out` | `cubic-bezier(0.77, 0, 0.175, 1)` | on-screen movement |
 
-**Intake panel** — white card, 4px gold top edge, sticky beside the service
-area. A numbered checklist of the five things to send, a green safety note, and
-two live CTAs. Not a `<form>` until an endpoint exists — see PRODUCT.md.
+| Duration | Value | Tier |
+|---|---|---|
+| `--dur-press` | 140ms | button press |
+| `--dur-fast` | 180ms | hover, small state |
+| `--dur-mid` | 260ms | UI transitions |
+| `--dur-reveal` | 720ms | scroll reveals (marketing tier) |
+| `--dur-scene` | 1000ms | hero assembly, once per visit |
 
-**Tag pill** — green at 12% tint, `--accent-deep` text. Inverted to charcoal-on-
-gold inside the emergency block, where the tint is invisible.
+**Reveal variants** (`data-reveal`): `up`, `rise`, `depth` (hinges in off a
+plane), `swing` (rotateY), `scale`, `mask` (frame holds, picture settles into
+it). Stagger via `--i` at 60ms steps.
 
-**Hours `<dl>`** — today's row gets a green dot **and** bold weight **and** an
-"· open now / closed now" text label. Colour is never the only signal.
+**The hero is a real 3D scene.** Three planes at different `translateZ` inside
+one perspective: photograph at −140px, rain at −40px, scrim at +10px. On scroll
+the whole scene sinks and tilts via a CSS scroll timeline, so it runs on the
+compositor rather than fighting the main thread.
 
-## 5. Layout Principles
+**Text is deliberately not in the 3D context.** Transformed text rasterises
+soft, and a blurry headline is a bad trade for parallax nobody consciously
+notices. The planes move; the type stays crisp and gets its own hinge reveal.
 
-- Shell `max-width: 74rem`, gutter `clamp(1.1rem, 4vw, 2.5rem)`. Full-bleed
-  frames break out; inner content keeps shell width.
-- Vertical rhythm: `clamp(3.5rem, 9vw, 7rem)` block padding; vary it — hero and
-  service area get more, the value strip less.
-- ≥ 4 distinct section skeletons: full-bleed hero, horizontal strip, auto-fit
-  services grid with one spanning block, asymmetric feature frame, offset
-  image + prose, 12-column gallery band, split details + sticky panel. No two
-  sections share a layout.
-- Body copy capped at 66ch.
+### Non-negotiables
 
-## 6. Depth & Elevation
+- **transform and opacity only** (`clip-path` was tried and removed — see below).
+- **Nothing hides without JS.** Reveals only become hidden under `html.js`,
+  which is set by an inline script in `<head>`. A JS failure or a headless
+  renderer gets the full page, not a blank one.
+- **`prefers-reduced-motion` keeps the fades and drops every translation**,
+  rotation, loop and pointer-tracker. Fewer and gentler, not zero.
+- **Hover motion is gated** behind `@media (hover: hover) and (pointer: fine)` —
+  touch fires a false hover on tap and leaves effects stuck mid-sweep.
+- **Transitions, not keyframes**, for anything that can retrigger, so an
+  interrupted movement retargets from where it is.
 
-Two shadows only, tinted charcoal-warm, never pure black:
-- `--shadow-sm`: `0 1px 2px oklch(0.25 0.008 60 / 0.12)` — solid nav.
-- `--shadow-lg`: `0 8px 30px oklch(0.25 0.008 60 / 0.12)` — intake panel,
-  about figure.
-Charcoal frames separate with `--hairline-frame`, not shadow.
+### The clip-path trap
 
-## 7. Do's and Don'ts
+The first cut used `clip-path: inset(0 0 100% 0)` for a wipe reveal. It never
+fired: an element clipped to zero height reports an intersection ratio of zero,
+so IntersectionObserver never marks it visible, so it is never unclipped. A
+reveal cannot be driven by the same element that clips itself out of existence.
+Replaced with `mask`, which translates the *inner* media inside a wrapper that
+already has `overflow: hidden`.
 
-**Do:** white page; charcoal headings with a gold rule; gold as fill only; green
-as a mark only; one type family; the emergency block first and widest; drizzle
-on the hero with a full reduced-motion off-switch; every image commented for
-client swap; every invented fact a visible TODO.
+## 5. Layout
 
-**Don't:** white text on gold; gold text on white; navy-and-red contractor
-palette; shield crests; cream canvas; second accent; second font; serif; eyebrow
-kicker on every section; 01/02/03 markers; identical 3-up service cards; nested
-cards; gradient text; glassmorphism; hero carousel; `aggregateRating` in JSON-LD
-before real first-party reviews exist; a `<form>` with no endpoint behind it.
+- Shell `max-width: 78rem`, gutter `clamp(1.15rem, 4vw, 3rem)`.
+- Section rhythm `clamp(5rem, 12vw, 10rem)` — bigger than the last build; this
+  system needs air around the type.
+- Radius is tight (`4px` / `10px`). This is an edges system, not a pill system;
+  pills survive only on city chips and tag flags.
+- Distinct section skeletons: full-bleed 3D hero, three-up stat band, gold slab
+  + four-card grid, feature + numbered steps + quote row, offset image with the
+  logo breaking the frame, 12-column work grid, split details + sticky panel.
+- Giant outlined wordmarks drift behind sections on scroll, and the footer
+  wordmark is cropped by the viewport edge the way a roofline runs past the
+  frame of a photograph.
 
-## 8. Responsive Behaviour
+## 6. Do / Don't
 
-- Breakpoints: 420 (phone pill → glyph), 620 (services → 1 col, gallery →
-  scroll-snap), 720 (leak grid → 1 col), 760 (nav anchors hide), 980 (service
-  area split → stacked, intake panel first).
-- Touch targets ≥ 44px; `tel:` links ≥ 44px.
+**Do:** dark ground with cream breaks; gold as type *and* fill on dark; the
+solid/outlined headline pair; numbered section labels; charcoal text on every
+gold fill; honest stat numerals only; the emergency block first, widest, and the
+only gold slab in its section.
+
+**Don't:** white text on gold; gold text on cream (use `--gold-ink`); navy-and-
+red contractor palette; shield crests; urgency theatre; a second accent hue;
+`ease-in` on anything entering; `scale(0)` entrances; ungated hover motion;
+scroll-gated content that ships blank without JS; invented numerals in the stat
+band; `aggregateRating` in JSON-LD before real first-party reviews exist; a
+`<form>` with no endpoint behind it.
+
+## 7. Responsive
+
+- Breakpoints: 380 (nav number → glyph), 480 (nav wordmark hides), 620 (hero
+  measure tightens), 760 (stat band and work grid stack), 860 (nav links hide,
+  feature and urgent slab stack), 900 (about stacks), 980 (quote splits stack).
+- Touch targets ≥ 44px; the `tel:` CTA is ≥ 48px.
 - No horizontal scroll at 360px — verified.
-- Hero image `loading="eager" fetchpriority="high"`; all others lazy.
-- Drizzle off under `prefers-reduced-motion`; paused when the tab is hidden.
+- Hero image `loading="eager" fetchpriority="high"`; everything else lazy.
+- The hero's weather loop pauses when the tab is hidden.
 
-## 9. Agent Prompt Guide
+## 8. Agent Prompt Guide
 
-Quick palette: bg `#ffffff`; gold fill `--primary oklch(0.78 0.135 85)` with
-charcoal `--on-primary` text on it; charcoal frame `oklch(0.25 0.008 60)`; green
-mark `--accent oklch(0.48 0.11 150)`; ink `oklch(0.22 0.008 60)`.
+Quick palette: ground `oklch(0.16 0.006 60)`; gold `oklch(0.78 0.135 85)` (text
+*and* fill on dark, charcoal text on gold fills); cream break
+`oklch(0.96 0.008 85)`; acacia `oklch(0.58 0.12 150)` for marks only.
 
-Prompt: "Build a steady, direct one-page site for a Metro Vancouver roofing
-company whose differentiator is that they attend active leaks during heavy rain.
-Pure-white page, charcoal headings each with a short gold rule above, savanna
-gold used only as fills — buttons, one value strip, the emergency services block
-— always with charcoal text on it, never white. Acacia green only as ticks and
-marks. Schibsted Grotesk only, hierarchy by weight. 8px corners. The emergency
-services group is first and spans full width on a gold field. One motion:
-drizzle falling over the hero, reduced-motion safe. No navy-and-red contractor
-palette, no shields, no urgency theatre, no cream, no serif."
+Prompt: "Dark editorial one-pager for a Metro Vancouver roofing company whose
+differentiator is attending active leaks during heavy rain. Near-black ground
+with two cream sections as breaks. Archivo Variable at width 64 / weight 900 for
+giant uppercase headlines, each one a pair — first line solid, second line
+outlined in gold. Savanna gold carries headlines, numerals and CTAs on the dark
+ground; charcoal text on gold fills, never white. The hero is a three-plane 3D
+parallax scene with drizzle, and the headline hinges up off its baseline.
+Scroll reveals with 60ms stagger, pointer tilt on cards, scroll-linked progress.
+Everything off under prefers-reduced-motion, nothing hidden without JS. No
+navy-and-red contractor palette, no shields, no urgency theatre."

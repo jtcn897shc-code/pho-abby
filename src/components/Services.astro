@@ -1,29 +1,61 @@
 ---
 import { services } from "../data/site";
+
+const [emergency, ...rest] = services;
 ---
 
-<section class="section services" id="services">
-  <div class="shell">
-    <div class="section-head">
-      <h2>What we do</h2>
-      <p>
+<section class="section section--cream services" id="services">
+  <span class="ghost ghost--cream" aria-hidden="true">Savanna</span>
+
+  <div class="shell section__inner">
+    <header class="services__head">
+      <p class="eyebrow" data-reveal="up">01 — What we do</p>
+      <h2 class="display h2" data-reveal="up" style="--i:1">
+        One roof.<br /><span class="display--ghost services__ghost-line">Built for the rain.</span>
+      </h2>
+      <p class="lede" data-reveal="up" style="--i:2">
         Flat roofs and asphalt shingle, residential and commercial. Grouped by
         what's wrong with your roof, not by trade category.
       </p>
-    </div>
+    </header>
 
-    <div class="services__grid">
+    <!-- The emergency group is the highest-intent block on the page, so it is
+         first, full width, and the only thing on this section wearing the
+         brand gold. -->
+    <article class="urgent" data-reveal="depth" data-tilt="3">
+      <div class="urgent__head">
+        <p class="urgent__kicker">Priority response</p>
+        <h3 class="display urgent__title">{emergency.name}</h3>
+        <p class="urgent__note">{emergency.note}</p>
+      </div>
+      <ul class="urgent__list">
+        {
+          emergency.items.map((item, i) => (
+            <li style={`--i:${i}`}>
+              <span class="urgent__name">
+                {item.name}
+                {item.tag && <span class="pill pill--on-gold">{item.tag}</span>}
+              </span>
+              {item.note && <span class="urgent__desc">{item.note}</span>}
+            </li>
+          ))
+        }
+      </ul>
+    </article>
+
+    <div class="svc__grid">
       {
-        services.map((group, i) => (
-          <div class:list={["svc", { "svc--urgent": i === 0 }]}>
-            <h3>
+        rest.map((group, i) => (
+          <article class="svc sheen" data-reveal="depth" data-tilt="5" style={`--i:${i}`}>
+            <span class="svc__index">{String(i + 2).padStart(2, "0")}</span>
+            <h3 class="svc__title">
               {group.name}
               {group.placeholder && <span class="svc__sample">sample</span>}
             </h3>
             {group.note && <p class="svc__note">{group.note}</p>}
-            <ul class="svc__rows">
+            <ul class="svc__items">
               {group.items.map((item) => (
-                <li class="svc__row">
+                <li>
                   <span class="svc__name">
                     {item.name}
                     {item.tag && <span class="pill">{item.tag}</span>}
@@ -32,12 +64,12 @@ import { services } from "../data/site";
                 </li>
               ))}
             </ul>
-          </div>
+          </article>
         ))
       }
     </div>
 
-    <p class="services__disclaimer">
+    <p class="services__disclaimer" data-reveal="up">
       Template build — the emergency-response scope is Savanna's own; the
       remaining groups are a realistic sample pending confirmation of exactly
       which systems and brands they carry.
@@ -46,84 +78,170 @@ import { services } from "../data/site";
 </section>
 
 <style>
-  .services__grid {
+  .services__head {
+    max-width: 52rem;
+    margin-bottom: clamp(2.5rem, 6vw, 4.5rem);
+  }
+
+  .services__ghost-line {
+    -webkit-text-stroke-color: var(--on-cream);
+  }
+
+  .services__head .lede {
+    margin-top: var(--s-6);
+  }
+
+  /* ---- emergency slab ---- */
+  .urgent {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
-    gap: clamp(2rem, 5vw, 3rem) clamp(2.5rem, 6vw, 4rem);
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+    background: var(--gold);
+    color: var(--on-gold);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.5rem, 4vw, 2.75rem);
+    margin-bottom: clamp(1.25rem, 3vw, 2rem);
+    box-shadow: var(--shadow-gold);
   }
 
-  /* The emergency group is the highest-intent block on the page, so it gets
-     width and a gold field instead of sitting as one column among five. */
-  .svc--urgent {
-    grid-column: 1 / -1;
-    background: var(--primary);
-    color: var(--on-primary);
-    border-radius: var(--radius);
-    padding: clamp(1.5rem, 4vw, 2.25rem);
+  .urgent__kicker {
+    font-family: var(--font);
+    font-variation-settings: "wdth" 88, "wght" 700;
+    font-size: var(--fs-micro);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.7;
   }
 
-  .svc h3 {
+  .urgent__title {
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    margin-top: var(--s-3);
+  }
+
+  .urgent__note {
+    margin-top: var(--s-4);
+    font-weight: 500;
+    max-width: 30ch;
+    opacity: 0.85;
+  }
+
+  .urgent__list {
+    list-style: none;
+    padding: 0;
+    display: grid;
+    align-content: start;
+    gap: 0;
+  }
+
+  .urgent__list li {
+    padding: 0.85rem 0;
+    border-top: 1px solid oklch(0.17 0.01 60 / 0.22);
+  }
+
+  .urgent__list li:first-child {
+    border-top: 0;
+  }
+
+  .urgent__name {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 0.4rem 0.7rem;
+    font-family: var(--font);
+    font-variation-settings: "wdth" 92, "wght" 700;
+    font-size: 1.05rem;
+    letter-spacing: -0.01em;
+  }
+
+  .urgent__desc {
+    display: block;
+    margin-top: 0.2rem;
+    font-size: 0.88rem;
+    opacity: 0.75;
+  }
+
+  /* The green tint pill is invisible on gold — invert it here. */
+  .pill--on-gold {
+    border-color: oklch(0.17 0.01 60 / 0.45);
+    color: oklch(0.17 0.01 60 / 0.8);
+  }
+
+  /* ---- the other four ---- */
+  .svc__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 17rem), 1fr));
+    gap: clamp(1rem, 2vw, 1.25rem);
+  }
+
+  .svc {
+    position: relative;
+    background: var(--cream-2);
+    border: 1px solid var(--hairline-cream);
+    border-radius: var(--radius-lg);
+    padding: clamp(1.25rem, 2.5vw, 1.75rem);
+    transition:
+      border-color var(--dur-fast) var(--ease-out),
+      box-shadow var(--dur-fast) var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .svc:hover {
+      border-color: var(--gold-ink);
+      box-shadow: 0 20px 50px oklch(0.18 0.007 60 / 0.12);
+    }
+  }
+
+  .svc__index {
+    font-family: var(--font);
+    font-variation-settings: var(--display-axes);
+    font-size: 2.5rem;
+    line-height: 1;
+    color: transparent;
+    -webkit-text-stroke: 1px oklch(0.18 0.007 60 / 0.28);
+  }
+
+  .svc__title {
     display: flex;
     align-items: baseline;
     flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: 0.5rem;
+    margin-top: var(--s-3);
+    font-family: var(--font);
+    font-variation-settings: "wdth" 82, "wght" 800;
     font-size: var(--fs-h3);
-    font-weight: 700;
-    color: var(--ink);
-    padding-bottom: var(--s-3);
-    border-bottom: 2px solid var(--primary);
-  }
-
-  .svc--urgent h3 {
-    color: var(--on-primary);
-    border-bottom-color: oklch(0.2 0.01 60 / 0.35);
-    font-size: clamp(1.35rem, 2.6vw, 1.75rem);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
   }
 
   .svc__sample {
-    font-size: 0.62rem;
+    font-size: 0.58rem;
     font-weight: 700;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--muted);
-    border: 1px solid var(--hairline);
+    color: var(--on-cream-dim);
+    border: 1px solid var(--hairline-cream);
     border-radius: var(--radius-pill);
-    padding: 0.1rem 0.5rem;
+    padding: 0.08rem 0.45rem;
   }
 
   .svc__note {
-    margin-top: var(--s-3);
-    font-size: 0.9rem;
-    color: var(--muted);
+    margin-top: var(--s-2);
+    font-size: 0.85rem;
+    color: var(--on-cream-dim);
   }
 
-  .svc--urgent .svc__note {
-    color: oklch(0.2 0.01 60 / 0.78);
-    font-weight: 500;
-  }
-
-  .svc__rows {
+  .svc__items {
     list-style: none;
     padding: 0;
     margin-top: var(--s-4);
   }
 
-  .svc--urgent .svc__rows {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 0 clamp(1.5rem, 4vw, 3rem);
+  .svc__items li {
+    padding: 0.55rem 0;
+    border-top: 1px dotted var(--hairline-cream);
   }
 
-  .svc__row {
-    padding: 0.6rem 0;
-    border-top: 1px dotted var(--hairline);
-  }
-
-  .svc--urgent .svc__row {
-    border-top-color: oklch(0.2 0.01 60 / 0.25);
-  }
-
-  .svc__row:first-child {
+  .svc__items li:first-child {
     border-top: 0;
   }
 
@@ -131,37 +249,28 @@ import { services } from "../data/site";
     display: flex;
     flex-wrap: wrap;
     align-items: baseline;
-    gap: 0.35rem 0.6rem;
+    gap: 0.3rem 0.5rem;
     font-weight: 600;
+    font-size: 0.95rem;
   }
 
   .svc__desc {
     display: block;
-    margin-top: 0.15rem;
-    font-size: 0.85rem;
+    margin-top: 0.1rem;
+    font-size: 0.82rem;
     line-height: 1.45;
-    color: var(--muted);
-  }
-
-  .svc--urgent .svc__desc {
-    color: oklch(0.2 0.01 60 / 0.75);
-  }
-
-  /* The accent-tint pill is invisible on the gold field — invert it there. */
-  .svc--urgent .pill {
-    background: oklch(0.2 0.01 60 / 0.88);
-    color: var(--primary);
+    color: var(--on-cream-dim);
   }
 
   .services__disclaimer {
-    margin-top: var(--s-12);
-    font-size: 0.82rem;
-    color: var(--muted);
+    margin-top: clamp(2rem, 4vw, 3rem);
+    font-size: 0.8rem;
+    color: var(--on-cream-dim);
     max-width: 62ch;
   }
 
-  @media (max-width: 620px) {
-    .services__grid {
+  @media (max-width: 860px) {
+    .urgent {
       grid-template-columns: 1fr;
     }
   }

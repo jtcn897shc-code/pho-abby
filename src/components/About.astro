@@ -1,64 +1,111 @@
 ---
-import { about } from "../data/site";
+import { about, site } from "../data/site";
 import { images } from "../data/images";
+import { logos } from "../data/images";
 import Figure from "./Figure.astro";
 ---
 
-<section class="section about" id="about">
-  <div class="shell about__inner">
+<section class="section section--cream about" id="about">
+  <div class="shell section__inner about__inner">
     <div class="about__text">
-      <div class="section-head">
-        <h2>Who we are</h2>
-      </div>
-      {about.map((para) => <p class="about__para">{para}</p>)}
+      <p class="eyebrow" data-reveal="up">03 — Who we are</p>
+      <h2 class="display h2" data-reveal="up" style="--i:1">
+        Protecting<br /><span class="display--ghost about__ghost">what's beneath.</span>
+      </h2>
+      {
+        about.map((para, i) => (
+          <p class="about__para" data-reveal="up" style={`--i:${i + 2}`}>
+            {para}
+          </p>
+        ))
+      }
     </div>
 
-    <figure class="about__figure">
-      <Figure {...images.crew} ratio="7 / 5" />
-    </figure>
+    <div class="about__media" data-reveal="scale">
+      <figure class="about__figure" data-tilt="7">
+        <Figure {...images.crew} ratio="4 / 5" />
+      </figure>
+      <img
+        class="about__mark"
+        src={logos.mark}
+        alt=""
+        width="320"
+        height="187"
+        loading="lazy"
+        decoding="async"
+      />
+      <p class="about__promise">{site.promise}</p>
+    </div>
   </div>
 </section>
 
 <style>
-  .about {
-    background: var(--surface);
-  }
-
   .about__inner {
     display: grid;
-    grid-template-columns: 1.1fr 0.9fr;
-    gap: clamp(2rem, 6vw, 4.5rem);
+    grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: clamp(2rem, 6vw, 5rem);
     align-items: center;
   }
 
-  .about__para {
-    max-width: 54ch;
-    color: var(--ink);
+  .about__ghost {
+    -webkit-text-stroke-color: var(--on-cream);
   }
 
-  .about__para + .about__para {
+  .about__para {
+    max-width: 52ch;
     margin-top: var(--s-4);
+    color: var(--on-cream-dim);
+  }
+
+  .about__para:first-of-type {
+    margin-top: var(--s-8);
+    color: var(--on-cream);
+    font-size: var(--fs-lead);
+  }
+
+  .about__media {
+    position: relative;
   }
 
   .about__figure {
     margin: 0;
-    border-radius: var(--radius);
+    border-radius: var(--radius-lg);
     overflow: hidden;
-    box-shadow: var(--shadow-lg);
-    transform: translateY(clamp(0px, 2vw, 1.5rem));
+    box-shadow: 0 30px 70px oklch(0.18 0.007 60 / 0.18);
   }
 
   .about__figure :global(.figure) {
     width: 100%;
   }
 
-  @media (max-width: 860px) {
+  /* The mark breaks the frame — the one place the logo gets to be an object
+     rather than a nav fixture. */
+  .about__mark {
+    position: absolute;
+    right: clamp(-1rem, -2vw, -0.5rem);
+    bottom: clamp(2.5rem, 6vw, 4rem);
+    width: clamp(7rem, 16vw, 11rem);
+    height: auto;
+    filter: drop-shadow(0 12px 28px oklch(0.18 0.007 60 / 0.3));
+  }
+
+  .about__promise {
+    margin-top: var(--s-6);
+    font-family: var(--font);
+    font-variation-settings: "wdth" 88, "wght" 700;
+    font-size: var(--fs-micro);
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold-ink);
+  }
+
+  @media (max-width: 900px) {
     .about__inner {
       grid-template-columns: 1fr;
     }
-    .about__figure {
-      transform: none;
+    .about__media {
       order: -1;
+      max-width: 26rem;
     }
   }
 </style>
