@@ -26,6 +26,26 @@ export type Figure = { src?: string; alt: string; label: string; kind: "roof" | 
 const asset = (file: string) =>
   `${import.meta.env.BASE_URL}/img/${file}`.replace(/\/{2,}/g, "/");
 
+/**
+ * Logo assets, extracted from the client's supplied artwork.
+ *
+ * The cream card background was keyed to transparency so the logo sits on any
+ * surface. `*Reversed` are derived knockout variants with the charcoal remapped
+ * to cream: the original's charcoal elements are invisible against the charcoal
+ * frame and the dark hero, so dark grounds need them.
+ *
+ * TODO: get the official vector (SVG/AI/EPS) and, if the designer made one, the
+ * official reversed variant. These are traced off a screenshot of a raster
+ * upload — good enough at the sizes used here, but they will not survive being
+ * scaled up for signage, vehicle livery or print.
+ */
+export const logos = {
+  mark: asset("logo-mark.webp"),
+  markReversed: asset("logo-mark-rev.webp"),
+  lockup: asset("logo-lockup.webp"),
+  lockupReversed: asset("logo-lockup-rev.webp"),
+};
+
 export const images: Record<string, Figure> = {
   hero: {
     src: asset("hero-ridge.webp"), // real Savanna job photo

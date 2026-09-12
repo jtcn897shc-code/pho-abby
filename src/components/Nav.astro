@@ -1,5 +1,9 @@
 ---
 import { contact } from "../data/site";
+import { logos } from "../data/images";
+
+const mark = logos.mark;
+const markRev = logos.markReversed;
 
 const links = [
   { href: "#services", label: "Services" },
@@ -13,13 +17,14 @@ const links = [
 <header class="nav" data-nav>
   <div class="shell nav__row">
     <a class="nav__brand" href="#top">
-      <!-- TODO: replace with the real Savanna mark (giraffe + acacia + roofline)
-           as an inline SVG once the vector file arrives. This is a stand-in
-           roofline that keeps the nav honest in the meantime. -->
-      <svg width="22" height="22" viewBox="0 0 32 32" aria-hidden="true">
-        <path d="M16 5.5 2.5 16.5h4V26h19v-9.5h4L16 5.5Z" fill="currentColor" />
-        <rect x="20.5" y="8" width="3" height="4.2" rx="0.6" fill="currentColor" />
-      </svg>
+      <!-- The mark carries two variants: the artwork's charcoal disappears on
+           the dark hero, so the reversed one shows there and the original takes
+           over once the nav solidifies. The wordmark stays live text — a raster
+           wordmark at this size would be mush. -->
+      <span class="nav__logo" aria-hidden="true">
+        <img class="nav__logo-img nav__logo-img--rev" src={markRev} alt="" width="320" height="187" />
+        <img class="nav__logo-img nav__logo-img--std" src={mark} alt="" width="320" height="187" />
+      </span>
       {contact.shortName}
     </a>
 
@@ -62,10 +67,41 @@ const links = [
     height: 4.25rem;
   }
 
+  .nav__logo {
+    position: relative;
+    display: block;
+    /* The emblem is detail-dense (giraffe, acacia, roofline); below ~36px it
+       collapses into a coloured blob. */
+    height: 38px;
+    aspect-ratio: 320 / 187;
+    flex: 0 0 auto;
+  }
+
+  .nav__logo-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: opacity var(--dur-mid) var(--ease-out);
+  }
+
+  .nav__logo-img--std {
+    opacity: 0;
+  }
+
+  .nav.is-solid .nav__logo-img--rev {
+    opacity: 0;
+  }
+
+  .nav.is-solid .nav__logo-img--std {
+    opacity: 1;
+  }
+
   .nav__brand {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 0.55rem;
     font-weight: 900;
     font-size: 1.05rem;
     letter-spacing: -0.02em;

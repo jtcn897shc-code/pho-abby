@@ -1,12 +1,21 @@
 ---
 import { contact, serviceArea, socials, site } from "../data/site";
+import { logos } from "../data/images";
 const year = new Date().getFullYear();
 ---
 
 <footer class="footer">
   <div class="shell footer__inner">
     <div class="footer__brand">
-      <span class="footer__word">{contact.name}</span>
+      <img
+        class="footer__logo"
+        src={logos.lockupReversed}
+        alt={contact.name}
+        width="700"
+        height="570"
+        loading="lazy"
+        decoding="async"
+      />
       <p class="footer__promise">{site.promise}</p>
       <p>{site.description}</p>
     </div>
@@ -61,10 +70,9 @@ const year = new Date().getFullYear();
     padding-bottom: var(--s-12);
   }
 
-  .footer__word {
-    font-size: 1.5rem;
-    font-weight: 900;
-    letter-spacing: -0.02em;
+  .footer__logo {
+    width: clamp(150px, 18vw, 200px);
+    height: auto;
   }
 
   .footer__brand p {

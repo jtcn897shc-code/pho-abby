@@ -74,7 +74,13 @@ drone/ridge shot of a completed charcoal shingle roof in a PNW neighbourhood.
 9. **Photos at full resolution.** The screenshots supplied so far are 1260×2736
    with app chrome; the usable area is ~1260×1745, too short for a full-bleed
    hero. Need the originals.
-10. **Logo vector.** Nav and footer currently use a stand-in roofline glyph.
+10. **Logo vector.** The supplied artwork is now in use — extracted from the
+    screenshot, background keyed to transparency, plus a derived reversed
+    (knockout) variant for the dark nav and footer, since the original's
+    charcoal elements vanish on charcoal. Still wanted: the official vector
+    (SVG/AI/EPS), and the designer's own reversed variant if one exists. What
+    is in the repo is traced off a raster screenshot — fine at web sizes, but
+    it will not hold up scaled to signage, vehicle livery or print.
 11. **Systems and brands.** Which membrane systems for flat roofs, which shingle
     brands, any manufacturer certification. Four of the five service groups are
     marked `sample` on the page until this is answered.
