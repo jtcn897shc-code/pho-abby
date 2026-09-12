@@ -154,7 +154,13 @@ const rain = [
   }
 
   .hero__inner {
-    padding-block: clamp(2.5rem, 8vw, 5.5rem);
+    /* Top and bottom padding are no longer one clamp: the nav sits
+       transparently over the hero via a fixed -4.25rem pull-up (Nav.astro),
+       so the top offset must never fall below that regardless of viewport —
+       a vw-based clamp alone drops under 4.25rem on any screen narrower than
+       ~500px and the headline row renders behind the nav. */
+    padding-top: calc(4.25rem + clamp(1.5rem, 5vw, 3rem));
+    padding-bottom: clamp(2.5rem, 8vw, 5.5rem);
   }
 
   .hero__place {
