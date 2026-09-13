@@ -31,4 +31,7 @@
       this instead of / alongside its current action, get the trigger snippet
       from the Destura dashboard for this slug and it can be wired to that
       button's onclick.
-    --><script src="https://flow.destura.studio/embed.js" data-slug="savanna.roofing" async></script></body></html>
+    --><!-- data-slug must match the routing path in the Destura dashboard
+         (/b/savanna-roofing), NOT the display name shown there
+         ("savanna.roofing") - the platform slugifies dots to hyphens for the
+         actual path, same as GitHub does with repo names. --><script src="https://flow.destura.studio/embed.js" data-slug="savanna-roofing" async></script></body></html>
