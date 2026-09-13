@@ -95,5 +95,18 @@ const jsonLd = {
     <script>
       import "../scripts/motion.ts";
     </script>
+
+    <!--
+      Destura Flow — booking widget (destura.studio, the same company credited
+      in the footer). `async` so it never blocks the page; per the vendor,
+      dropping the tag anywhere is enough — it mounts its own floating
+      launcher on load, no container element needed.
+
+      TODO: if you want a specific button (e.g. "Request a quote") to open
+      this instead of / alongside its current action, get the trigger snippet
+      from the Destura dashboard for this slug and it can be wired to that
+      button's onclick.
+    -->
+    <script src="https://flow.destura.studio/embed.js" data-slug="savanna-roofing" async></script>
   </body>
 </html>
