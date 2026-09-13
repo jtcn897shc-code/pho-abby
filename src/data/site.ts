@@ -249,9 +249,22 @@ export const quoteIntake = {
   endpoint: "", // TODO: form service endpoint. Empty = fall back to Messenger + phone.
 };
 
+/**
+ * Destura Flow booking page. Every "Request a quote" / "Get a quote" trigger
+ * points here directly (real href, opens in a new tab) so a JS failure still
+ * lands a visitor somewhere that works instead of a dead button — QuoteModal
+ * intercepts the click and opens it inline instead when JS is available.
+ *
+ * TODO: confirm this URL is correct. Inferred from the routing path
+ * (/b/savanna-roofing) shown in the Destura dashboard, never verified
+ * directly — this build environment has no outbound network access to check
+ * it against the live service.
+ */
+export const bookingFlowUrl = "https://flow.destura.studio/b/savanna-roofing";
+
 export const ctas = {
   emergency: { label: "Call about an active leak", href: "tel:+16045550142", verified: false },
-  quote: { label: "Request a quote", href: "#quote", verified: true },
+  quote: { label: "Request a quote", href: bookingFlowUrl, verified: true },
   message: { label: "Send photos on Messenger", href: "https://www.facebook.com/savannaroofing", verified: false },
 };
 

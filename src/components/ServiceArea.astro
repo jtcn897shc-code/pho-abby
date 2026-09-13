@@ -59,36 +59,28 @@ const to12 = (t: string) => {
     </div>
 
     <!--
-      Intake panel. The live booking flow (Destura, flow.destura.studio) is now
-      wired in as an iframe — see the note below. Phone/Messenger stay visible
-      underneath as a fallback: if the embed fails for any visitor (blocked,
-      slow, or the vendor's page refuses to be framed — can't be confirmed from
-      a build environment with no outbound network access), a lead still has a
-      working path that never depends on a script loading correctly. This is
-      the same reasoning that kept this panel out of a plain <form> before a
-      real endpoint existed — a dead-end control is worse than an honest one.
+      Intake panel. The booking flow opens in QuoteModal (rendered once in
+      Base.astro) rather than sitting embedded in this card permanently — a
+      light-themed form iframe parked in a dark panel read as an unstyled box
+      that got dropped in, not a design choice. This button keeps a real href
+      to the flow's own page as a fallback (opens in a new tab) so a JS
+      failure never leaves a visitor with a dead control; QuoteModal's script
+      intercepts the click when it can. Phone/Messenger stay one toggle away
+      underneath for the same reason this panel was never a plain <form>
+      before a real endpoint existed — a dead-end control is worse than an
+      honest one.
     -->
     <aside class="intake" data-reveal="depth" data-tilt="3">
       <h3 class="display intake__title">Get a quote</h3>
-      <p class="intake__lede">Book directly below, or call — whichever's faster for you.</p>
+      <p class="intake__lede">Book directly online, or call — whichever's faster for you.</p>
 
-      <!--
-        TODO: confirm this is the correct public URL for the flow. Inferred
-        from the dashboard's routing path (/b/savanna-roofing) shown to the
-        account owner; the embed.js widget itself never rendered anything
-        visible (floating or otherwise) despite the slug being corrected
-        twice, so this bypasses it and points straight at the flow's own page.
-      -->
-      <div class="intake__embed">
-        <iframe
-          src="https://flow.destura.studio/b/savanna-roofing"
-          title="Savanna Roofing booking form"
-          loading="lazy"
-        />
-      </div>
+      <a class="btn intake__book" href={ctas.quote.href} target="_blank" rel="noopener" data-open-quote-modal>
+        {ctas.quote.label}
+        <span class="arrow" aria-hidden="true">↗</span>
+      </a>
 
       <details class="intake__fallback">
-        <summary>Form not loading, or prefer to call?</summary>
+        <summary>Prefer to call, or the form didn't open?</summary>
         <ol class="intake__list">
           {
             quoteIntake.fields.map((f, i) => (
@@ -349,23 +341,9 @@ const to12 = (t: string) => {
     margin-top: var(--s-6);
   }
 
-  /* Fixed height with internal scroll, since the embedded page's real content
-     height is unknown from here — there's no postMessage resize handshake to
-     hook into without the vendor's integration docs. */
-  .intake__embed {
-    margin-top: var(--s-6);
-    border-radius: var(--radius);
-    overflow: hidden;
-    border: 1px solid var(--hairline);
-    background: var(--void);
-  }
-
-  .intake__embed iframe {
-    display: block;
+  .intake__book {
     width: 100%;
-    height: 640px;
-    border: 0;
-    color-scheme: light; /* most embedded web forms assume a light host page */
+    margin-top: var(--s-6);
   }
 
   .intake__fallback {
