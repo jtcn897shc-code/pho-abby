@@ -1,0 +1,173 @@
+---
+import { contact, bookingFlowUrl } from "../data/site";
+---
+
+<!--
+  One modal, shared by every "Request a quote" trigger on the page (hero,
+  quote section, wherever else). Rendered once here, opened by any element
+  carrying [data-open-quote-modal].
+
+  Progressive enhancement, not a JS-only control: every trigger keeps a real
+  href to bookingFlowUrl (opens the flow's own page in a new tab), and this
+  script only intercepts the click once it has confirmed <dialog> is usable.
+  A JS failure degrades to "opens in a new tab" rather than doing nothing —
+  the same reasoning that has driven every lead-capture control on this site.
+
+  Native <dialog>.showModal() supplies the focus trap, Escape-to-close, and
+  an inert background for free; the CSS below only has to handle the visual
+  entrance/exit.
+-->
+<dialog id="quote-modal" class="quote-modal" aria-label={`Book with ${contact.name}`}>
+  <button class="quote-modal__close" type="button" data-close-quote-modal aria-label="Close">
+    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M5 5l14 14M19 5L5 19" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" />
+    </svg>
+  </button>
+  <iframe class="quote-modal__frame" title={`${contact.name} booking form`} data-src={bookingFlowUrl}></iframe>
+</dialog>
+
+<style>
+  .quote-modal {
+    border: 0;
+    padding: 0;
+    margin: auto;
+    width: min(720px, 92vw);
+    max-height: min(720px, 88svh);
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    transform: scale(0.96) translateY(16px);
+    /* `overlay` and `display` are what let a *closing* <dialog> transition
+       out instead of vanishing the instant .close() runs — allow-discrete is
+       the modern, JS-free way to animate an element's exit past display:none.
+       Unsupported browsers just drop those two list items and the dialog
+       snaps shut instead of easing out; nothing breaks. */
+    transition:
+      opacity var(--dur-reveal) var(--ease-out),
+      transform var(--dur-reveal) var(--ease-out),
+      overlay var(--dur-reveal) allow-discrete,
+      display var(--dur-reveal) allow-discrete;
+  }
+
+  .quote-modal[open] {
+    opacity: 1;
+    transform: none;
+  }
+
+  @starting-style {
+    .quote-modal[open] {
+      opacity: 0;
+      transform: scale(0.96) translateY(16px);
+    }
+  }
+
+  .quote-modal::backdrop {
+    background: oklch(0.16 0.006 60 / 0.75);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    transition:
+      opacity var(--dur-reveal) var(--ease-out),
+      overlay var(--dur-reveal) allow-discrete,
+      display var(--dur-reveal) allow-discrete;
+  }
+
+  .quote-modal[open]::backdrop {
+    opacity: 1;
+  }
+
+  @starting-style {
+    .quote-modal[open]::backdrop {
+      opacity: 0;
+    }
+  }
+
+  .quote-modal__close {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 50%;
+    border: 0;
+    background: oklch(0.16 0.006 60 / 0.55);
+    color: #fff;
+    cursor: pointer;
+    backdrop-filter: blur(4px);
+    transition:
+      background-color var(--dur-fast) var(--ease-out),
+      transform var(--dur-press) var(--ease-out);
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .quote-modal__close:hover {
+      background: oklch(0.16 0.006 60 / 0.8);
+    }
+  }
+
+  .quote-modal__close:active {
+    transform: scale(0.92);
+  }
+
+  .quote-modal__frame {
+    display: block;
+    width: 100%;
+    height: min(720px, 88svh);
+    border: 0;
+    color-scheme: light; /* the embedded form assumes a light host, not this page's dark ground */
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .quote-modal,
+    .quote-modal::backdrop {
+      transform: none;
+      transition: opacity 200ms var(--ease-out);
+    }
+  }
+</style>
+
+<script>
+  const dialog = document.getElementById("quote-modal") as HTMLDialogElement | null;
+  const iframe = dialog?.querySelector<HTMLIFrameElement>(".quote-modal__frame");
+  const closeBtn = dialog?.querySelector<HTMLButtonElement>("[data-close-quote-modal]");
+
+  if (dialog && iframe && closeBtn && typeof dialog.showModal === "function") {
+    let loaded = false;
+
+    const openModal = () => {
+      // Loaded on first open only, not on page load — nobody pays the cost
+      // of fetching the flow unless they actually click through to it.
+      if (!loaded) {
+        iframe.src = iframe.dataset.src ?? "";
+        loaded = true;
+      }
+      dialog.showModal();
+    };
+
+    document.querySelectorAll<HTMLElement>("[data-open-quote-modal]").forEach((trigger) => {
+      trigger.addEventListener("click", (event) => {
+        event.preventDefault();
+        openModal();
+      });
+    });
+
+    closeBtn.addEventListener("click", () => dialog.close());
+
+    // Click on the backdrop (anywhere outside the panel's own box) closes it.
+    // Native <dialog> has no direct way to target ::backdrop clicks, so this
+    // checks the click coordinates against the dialog's own rendered rect.
+    dialog.addEventListener("click", (event) => {
+      const rect = dialog.getBoundingClientRect();
+      const inside =
+        event.clientX >= rect.left &&
+        event.clientX <= rect.right &&
+        event.clientY >= rect.top &&
+        event.clientY <= rect.bottom;
+      if (!inside) dialog.close();
+    });
+  }
+</script>

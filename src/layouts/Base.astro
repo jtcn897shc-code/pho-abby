@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import QuoteModal from "../components/QuoteModal.astro";
 import { contact, hours, serviceArea, site } from "../data/site";
 
 interface Props {
@@ -97,20 +98,12 @@ const jsonLd = {
     </script>
 
     <!--
-      Destura Flow — booking widget (destura.studio, the same company credited
-      in the footer). `async` so it never blocks the page; per the vendor,
-      dropping the tag anywhere is enough — it mounts its own floating
-      launcher on load, no container element needed.
-
-      TODO: if you want a specific button (e.g. "Request a quote") to open
-      this instead of / alongside its current action, get the trigger snippet
-      from the Destura dashboard for this slug and it can be wired to that
-      button's onclick.
+      The vendor's own embed.js floating widget never rendered anything
+      visible, across two corrected slugs and a confirmed-active dashboard
+      account — dropped in favour of QuoteModal, which iframes the flow's own
+      page directly and is verified working. See data/site.ts (bookingFlowUrl)
+      for the URL this points at.
     -->
-    <!-- data-slug must match the routing path in the Destura dashboard
-         (/b/savanna-roofing), NOT the display name shown there
-         ("savanna.roofing") - the platform slugifies dots to hyphens for the
-         actual path, same as GitHub does with repo names. -->
-    <script src="https://flow.destura.studio/embed.js" data-slug="savanna-roofing" async></script>
+    <QuoteModal />
   </body>
 </html>

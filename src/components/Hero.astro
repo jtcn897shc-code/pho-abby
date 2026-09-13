@@ -81,7 +81,15 @@ const rain = [
           {contact.phoneDisplay}
           <span class="arrow" aria-hidden="true">↗</span>
         </a>
-        <a class="btn--ghost" href={ctas.quote.href}>Request a quote</a>
+        <a
+          class="btn--ghost"
+          href={ctas.quote.href}
+          target="_blank"
+          rel="noopener"
+          data-open-quote-modal
+        >
+          Request a quote
+        </a>
       </div>
     </div>
 
