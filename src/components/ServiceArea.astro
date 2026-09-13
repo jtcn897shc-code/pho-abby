@@ -59,40 +59,57 @@ const to12 = (t: string) => {
     </div>
 
     <!--
-      Intake panel. Deliberately NOT a <form>: the build is static with no
-      endpoint wired (quoteIntake.endpoint is empty), and a form that posts
-      into nothing silently swallows leads — the worst possible failure on a
-      contractor site. Wire an endpoint and this becomes a real form.
+      Intake panel. The live booking flow (Destura, flow.destura.studio) is now
+      wired in as an iframe — see the note below. Phone/Messenger stay visible
+      underneath as a fallback: if the embed fails for any visitor (blocked,
+      slow, or the vendor's page refuses to be framed — can't be confirmed from
+      a build environment with no outbound network access), a lead still has a
+      working path that never depends on a script loading correctly. This is
+      the same reasoning that kept this panel out of a plain <form> before a
+      real endpoint existed — a dead-end control is worse than an honest one.
     -->
     <aside class="intake" data-reveal="depth" data-tilt="3">
       <h3 class="display intake__title">Get a quote</h3>
-      <p class="intake__lede">
-        Send these five things and we can usually tell you what you're dealing
-        with before we roll a truck.
-      </p>
+      <p class="intake__lede">Book directly below, or call — whichever's faster for you.</p>
 
-      <ol class="intake__list">
-        {
-          quoteIntake.fields.map((f, i) => (
-            <li style={`--i:${i}`}>
-              <span class="intake__field">{f.label}</span>
-              <span class="intake__hint">{f.hint}</span>
-            </li>
-          ))
-        }
-      </ol>
-
-      <p class="intake__safety">{quoteIntake.safetyNote}</p>
-
-      <div class="intake__cta">
-        <a class="btn" href={ctas.emergency.href}>
-          Call now
-          <span class="arrow" aria-hidden="true">↗</span>
-        </a>
-        <a class="btn--ghost" href={ctas.message.href} target="_blank" rel="noopener">
-          Send photos
-        </a>
+      <!--
+        TODO: confirm this is the correct public URL for the flow. Inferred
+        from the dashboard's routing path (/b/savanna-roofing) shown to the
+        account owner; the embed.js widget itself never rendered anything
+        visible (floating or otherwise) despite the slug being corrected
+        twice, so this bypasses it and points straight at the flow's own page.
+      -->
+      <div class="intake__embed">
+        <iframe
+          src="https://flow.destura.studio/b/savanna-roofing"
+          title="Savanna Roofing booking form"
+          loading="lazy"
+        />
       </div>
+
+      <details class="intake__fallback">
+        <summary>Form not loading, or prefer to call?</summary>
+        <ol class="intake__list">
+          {
+            quoteIntake.fields.map((f, i) => (
+              <li style={`--i:${i}`}>
+                <span class="intake__field">{f.label}</span>
+                <span class="intake__hint">{f.hint}</span>
+              </li>
+            ))
+          }
+        </ol>
+        <p class="intake__safety">{quoteIntake.safetyNote}</p>
+        <div class="intake__cta">
+          <a class="btn" href={ctas.emergency.href}>
+            Call now
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+          <a class="btn--ghost" href={ctas.message.href} target="_blank" rel="noopener">
+            Send photos
+          </a>
+        </div>
+      </details>
     </aside>
   </div>
 </section>
@@ -330,6 +347,49 @@ const to12 = (t: string) => {
     flex-wrap: wrap;
     gap: var(--s-3);
     margin-top: var(--s-6);
+  }
+
+  /* Fixed height with internal scroll, since the embedded page's real content
+     height is unknown from here — there's no postMessage resize handshake to
+     hook into without the vendor's integration docs. */
+  .intake__embed {
+    margin-top: var(--s-6);
+    border-radius: var(--radius);
+    overflow: hidden;
+    border: 1px solid var(--hairline);
+    background: var(--void);
+  }
+
+  .intake__embed iframe {
+    display: block;
+    width: 100%;
+    height: 640px;
+    border: 0;
+    color-scheme: light; /* most embedded web forms assume a light host page */
+  }
+
+  .intake__fallback {
+    margin-top: var(--s-6);
+    padding-top: var(--s-6);
+    border-top: 1px solid var(--hairline);
+  }
+
+  .intake__fallback summary {
+    cursor: pointer;
+    font-family: var(--font);
+    font-variation-settings: "wdth" 88, "wght" 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--on-void-dim);
+  }
+
+  .intake__fallback[open] summary {
+    margin-bottom: var(--s-4);
+  }
+
+  .intake__fallback .intake__list {
+    margin-top: 0;
   }
 
   @media (max-width: 980px) {
